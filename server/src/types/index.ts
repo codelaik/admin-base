@@ -19,6 +19,7 @@ export type TAuditLog = {
 export type TUser = {
     id: number
     username: string
+    email: String
     password: string
     disabled: boolean
     auditLogs: TAuditLog[]
