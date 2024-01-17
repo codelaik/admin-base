@@ -1,6 +1,7 @@
 import { Response, NextFunction } from 'express'
 import { AUDIT_TYPE, ReqWithUser } from '../types'
 import db from '../lib/prisma'
+import { User } from '@prisma/client'
 
 export const aduitLogMiddleware =
     (type: AUDIT_TYPE) =>
@@ -13,7 +14,7 @@ export const aduitLogMiddleware =
                     data: {
                         type,
                         action: req.body.username,
-                        userId: req.user.id,
+                        userId: req?.user?.id,
                     },
                 })
                 return next()
@@ -22,7 +23,7 @@ export const aduitLogMiddleware =
                     data: {
                         type,
                         action: req.body.username,
-                        userId: req.user.id,
+                        userId: req?.user?.id,
                     },
                 })
                 return next()

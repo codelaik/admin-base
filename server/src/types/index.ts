@@ -1,3 +1,4 @@
+import { User } from '@prisma/client'
 import { Request } from 'express'
 
 export enum AUDIT_TYPE {
@@ -7,24 +8,16 @@ export enum AUDIT_TYPE {
     DISABLED_ACCOUNT = 'DISABLED_ACCOUNT',
 }
 
-export type TAuditLog = {
-    id: number
-    type: string
-    action: string
-    user: TUser
-    userId: number
-    createdAt: string
-}
-
-export type TUser = {
-    id: number
-    username: string
-    email: String
-    password: string
-    disabled: boolean
-    auditLogs: TAuditLog[]
-}
-
 export type ReqWithUser = Request & {
-    user: TUser
+    user: User
+}
+
+export enum Environment {
+    DEVELOPMENT = 'development',
+    PRODUCTION = 'production',
+}
+
+export enum ResponseStatus {
+    FAILED = 'FAILED',
+    SUCCESS = 'SUCCESS',
 }
