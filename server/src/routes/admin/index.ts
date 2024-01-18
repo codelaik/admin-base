@@ -1,10 +1,29 @@
 import express from 'express'
-import { createUser } from '../../lib/User/User'
-import { aduitLogMiddleware } from '../../middleware/audit'
-import { AUDIT_TYPE } from '../../types'
+import {
+    createUser,
+    disableUser,
+    enalbeUser,
+    loginUser,
+} from '../../lib/User/User'
+import passport from 'passport'
 
 const router = express.Router()
 
-router.post('/users', createUser)
+router.post(
+    '/users',
+    passport.authenticate('jwt', { session: false }),
+    createUser
+)
+router.post(
+    '/users/:id/disable',
+    passport.authenticate('jwt', { session: false }),
+    disableUser
+)
+router.post(
+    '/users/:id/enable',
+    passport.authenticate('jwt', { session: false }),
+    enalbeUser
+)
+router.post('/users/login', loginUser)
 
 export default router
