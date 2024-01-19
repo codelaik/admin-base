@@ -50,7 +50,7 @@ export const createUser = async (req: Request, res: Response) => {
         payload,
         secretOrKey as string,
         {},
-        (err: Error | null, token?: string) => {
+        (_: Error | null, token?: string) => {
             addAuditLog(
                 initilizingUser as User,
                 AUDIT_TYPE.CREATED_ACCOUNT,
@@ -92,7 +92,7 @@ export const loginUser = async (req: Request, res: Response) => {
         payload,
         secretOrKey as string,
         {},
-        (err: Error | null, token?: string) => {
+        (_: Error | null, token?: string) => {
             res.json({
                 status: ResponseStatus.SUCCESS,
                 token: 'Bearer ' + token,
