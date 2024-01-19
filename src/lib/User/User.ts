@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import Logger from '../logger'
 import bcrypt from 'bcryptjs'
 import db from '../prisma'
-import { AUDIT_TYPE, ReqWithUser, ResponseStatus } from '../../types'
+import { AUDIT_TYPE, ResponseStatus } from '../../types'
 import jwt from 'jsonwebtoken'
 import { User } from '@prisma/client'
 import { addAuditLog } from '../audit'
@@ -13,7 +13,6 @@ export const usernameAvailability = async (req: Request, res: Response) => {
     const usernameExists: Partial<User> | null = await db.user.findUnique({
         where: { username: req.body.username },
     })
-
     if (!!usernameExists) {
         res.json({
             available: false,
@@ -36,50 +35,34 @@ export const createUser = async (req: Request, res: Response) => {
         })
 
     const unencryptedPassword = req.body.password
-    // TODO: remove call backs and use await instead
-    const salt = await bcrypt.genSalt(10, (err, salt) => {
-        if (err) {
-            res.status(500).json({
-                status: ResponseStatus.FAILED,
-                errorMessage: err.message,
+    const salt = await bcrypt.genSalt(10)
+    const encryptedPassword = await bcrypt.hash(unencryptedPassword, salt)
+    const savedUser = await db.user.create({
+        data: {
+            username: req.body.username,
+            email: req.body.email,
+            password: encryptedPassword,
+            disabled: false,
+        },
+    })
+    const payload = { id: savedUser.id, email: savedUser.email }
+    jwt.sign(
+        payload,
+        secretOrKey as string,
+        {},
+        (err: Error | null, token?: string) => {
+            addAuditLog(
+                initilizingUser as User,
+                AUDIT_TYPE.CREATED_ACCOUNT,
+                savedUser.username
+            )
+            res.json({
+                status: ResponseStatus.SUCCESS,
+                token: 'Bearer ' + token,
+                user: savedUser,
             })
         }
-        bcrypt.hash(unencryptedPassword, salt, async (err, hash) => {
-            if (err) {
-                res.status(500).json({
-                    status: ResponseStatus.FAILED,
-                    errorMessage: err.message,
-                })
-            }
-            const encryptedPassword = hash
-            const savedUser = await db.user.create({
-                data: {
-                    username: req.body.username,
-                    email: req.body.email,
-                    password: encryptedPassword,
-                    disabled: false,
-                },
-            })
-            const payload = { id: savedUser.id, email: savedUser.email }
-            jwt.sign(
-                payload,
-                secretOrKey as string,
-                {},
-                (err: Error | null, token?: string) => {
-                    addAuditLog(
-                        initilizingUser as User,
-                        AUDIT_TYPE.CREATED_ACCOUNT,
-                        savedUser.username
-                    )
-                    res.json({
-                        status: ResponseStatus.SUCCESS,
-                        token: 'Bearer ' + token,
-                        user: savedUser,
-                    })
-                }
-            )
-        })
-    })
+    )
 }
 
 export const loginUser = async (req: Request, res: Response) => {
