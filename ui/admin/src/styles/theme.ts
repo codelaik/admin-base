@@ -1,28 +1,31 @@
 import { createTheme } from '@mui/material'
 
-export const colors = {
-    primary: '#7A8D7D',
-    secondary: '#5B5251',
-    error: '#CCAE91',
-    warning: '#ff5252',
-    contrastPrimaryText: '#F4F4F4',
-    contractPrimaryTable: '#eeffe6',
+export enum COLORS {
+    PRIMARY = '#8EB1C7',
+    SECONDARY = '#C1BFB5',
+    BACKGROUND_PRIMARY = '#FEFDFF',
+    BACKGROUND_SECONDARY = '#FFFFFF',
+    TEXT_PRIMARY = '#1E1E1E',
+    TEXT_PRIMARY_INVERSE = '#FEFDFF',
+    TEXT_SECONDARY = '#8EB1C7',
+    ERROR = '#B02E0C',
+    WARNING = '#CCAC1E',
 }
 
 export const theme = createTheme({
     palette: {
         primary: {
-            main: colors.primary,
-            contrastText: colors.contrastPrimaryText,
+            main: COLORS.PRIMARY,
+            contrastText: COLORS.TEXT_PRIMARY_INVERSE,
         },
         secondary: {
-            main: colors.secondary,
+            main: COLORS.SECONDARY,
         },
         error: {
-            main: colors.error,
+            main: COLORS.ERROR,
         },
         warning: {
-            main: colors.warning,
+            main: COLORS.WARNING,
         },
     },
 })
