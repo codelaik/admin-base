@@ -14,6 +14,9 @@ export enum COLORS {
 
 export const theme = createTheme({
     palette: {
+        background: {
+            default: COLORS.PRIMARY,
+        },
         primary: {
             main: COLORS.PRIMARY,
             contrastText: COLORS.TEXT_PRIMARY_INVERSE,
