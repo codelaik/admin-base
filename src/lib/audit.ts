@@ -1,4 +1,4 @@
-import { AUDIT_TYPE, ReqWithUser } from '../types'
+import { AUDIT_TYPE } from '../types'
 import db from './prisma'
 import { User } from '@prisma/client'
 
