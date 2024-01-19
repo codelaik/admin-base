@@ -17,7 +17,7 @@ export const initializePassport = async (passport: any) => {
                 },
             })
             if (user) {
-                // return the user to the frontend
+                // return the user
                 return done(null, user)
             }
             // return false since there is no user
