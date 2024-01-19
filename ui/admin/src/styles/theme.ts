@@ -8,6 +8,7 @@ export enum COLORS {
     TEXT_PRIMARY = '#1E1E1E',
     TEXT_PRIMARY_INVERSE = '#FEFDFF',
     TEXT_SECONDARY = '#8EB1C7',
+    TEXT_TERTIARY = '#5C7D8A',
     ERROR = '#B02E0C',
     WARNING = '#CCAC1E',
 }

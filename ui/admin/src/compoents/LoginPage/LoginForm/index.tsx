@@ -1,7 +1,14 @@
-import { Button, FormControl, TextField } from '@mui/material'
+import {
+    Button,
+    CircularProgress,
+    FormControl,
+    TextField,
+    Typography,
+} from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import styles from './styles'
 import { AdminErrorWrapper } from '../../Global/AdminErrorWrapper'
+import { COLORS } from '../../../styles/theme'
 
 type TFormOptions = {
     email: string
@@ -28,6 +35,7 @@ const LoginForm: FC = () => {
         useState<TFormOptions>(defaultFormOptions)
     const [formErrors, setFormErrors] = useState<TFormErrors>(defaultFormErrors)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         if (Object.values(formOptions).includes('')) {
@@ -47,12 +55,25 @@ const LoginForm: FC = () => {
         setFormOptions({ ...formOptions, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        //needs to updated to use api functions once implemented
+        setIsLoading(true)
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 1000)
         //submit function here
     }
 
     return (
         <FormControl sx={styles.formContainer}>
+            <Typography
+                padding="10px 0px 0px 0px"
+                fontWeight="bold"
+                fontSize="large"
+                color={COLORS.TEXT_TERTIARY}
+            >
+                Admin Portal
+            </Typography>
             <AdminErrorWrapper error={formErrors.email}>
                 <TextField
                     onChange={handleChange}
@@ -74,9 +95,9 @@ const LoginForm: FC = () => {
                 sx={styles.submitButton}
                 variant="contained"
                 onClick={handleSubmit}
-                disabled={isSubmitDisabled}
+                disabled={isSubmitDisabled || isLoading}
             >
-                Login
+                {isLoading ? <CircularProgress size="1.7em" /> : 'Login'}
             </Button>
         </FormControl>
     )
