@@ -24,6 +24,7 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     enalbeUser
 )
+router.post('/users/current', passport.authenticate('jwt', { session: false }))
 router.post('/users/login', loginUser)
 
 export default router
