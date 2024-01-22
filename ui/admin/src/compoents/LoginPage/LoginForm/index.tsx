@@ -9,18 +9,14 @@ import { FC, useEffect, useState } from 'react'
 import styles from './styles'
 import { AdminErrorWrapper } from '../../Global/AdminErrorWrapper'
 import { COLORS } from '../../../styles/theme'
-
-type TFormOptions = {
-    email: string
-    password: string
-}
+import { TLoginInfo } from '../../../types/api'
 
 type TFormErrors = {
     email: string | null
     password: string | null
 }
 
-const defaultFormOptions: TFormOptions = {
+const defaultFormOptions: TLoginInfo = {
     email: '',
     password: '',
 }
@@ -32,7 +28,7 @@ const defaultFormErrors: TFormErrors = {
 
 const LoginForm: FC = () => {
     const [formOptions, setFormOptions] =
-        useState<TFormOptions>(defaultFormOptions)
+        useState<TLoginInfo>(defaultFormOptions)
     const [formErrors, setFormErrors] = useState<TFormErrors>(defaultFormErrors)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
