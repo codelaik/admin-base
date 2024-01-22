@@ -10,7 +10,8 @@ import styles from './styles'
 import { AdminErrorWrapper } from '../../Global/AdminErrorWrapper'
 import { COLORS } from '../../../styles/theme'
 import { TLoginInfo } from '../../../types/api'
-import { useUserAuth } from '../../../hooks/useAuth'
+import { useUserAuthContext } from '../../../hooks/useAuth'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 type TFormErrors = {
     email: string | null
@@ -33,7 +34,9 @@ const LoginForm: FC = () => {
     const [formErrors, setFormErrors] = useState<TFormErrors>(defaultFormErrors)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const { loginUser } = useUserAuth()
+    const { loginUser } = useUserAuthContext()
+    const { state } = useLocation()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (Object.values(formOptions).includes('')) {
@@ -56,6 +59,7 @@ const LoginForm: FC = () => {
     const handleSubmit = async () => {
         setIsLoading(true)
         await loginUser(formOptions)
+        navigate(state?.path || '/')
         setIsLoading(false)
     }
 

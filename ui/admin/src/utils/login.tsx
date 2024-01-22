@@ -1,4 +1,4 @@
-import { TLoginInfo, TLoginResult } from '../types/api'
+import { TLoginInfo } from '../types/api'
 import axios from 'axios'
 
 const setAuthToken = (token: string | null) => {
@@ -10,15 +10,15 @@ const setAuthToken = (token: string | null) => {
 }
 
 //to be updated for hosted url
-export const login = async (data: TLoginInfo) => {
-    const res: TLoginResult = await axios.post(
+export const login = async (loginData: TLoginInfo) => {
+    const { data } = await axios.post(
         `http://localhost:8081/api/admin/users/login`,
         {
-            ...data,
+            ...loginData,
         }
     )
-    setAuthToken(res.token)
-    return res.user
+    setAuthToken(data.tok)
+    return data.user
 }
 
 export const logout = () => {

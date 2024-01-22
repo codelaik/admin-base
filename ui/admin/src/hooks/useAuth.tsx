@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, FC } from 'react'
+import { createContext, useContext, useState, FC, useEffect } from 'react'
 import { TLoginInfo } from '../types/api'
 import { TUser } from '../types/entities'
 import { login, logout } from '../utils/login'
@@ -10,15 +10,18 @@ interface IUserAuthContext {
     user: TUser | null
 }
 
-export const useUserAuth = () => {
+const useUserAuth = () => {
     const [user, setUser] = useState<TUser | null>(null)
     const [authed, setAuthed] = useState<boolean>(false)
 
     const loginUser = async (data: TLoginInfo) => {
         const user = await login(data)
+        console.log(user)
         setAuthed(true)
         setUser(user)
     }
+
+    useEffect(() => console.log(user), [user])
 
     const logoutUser = () => {
         logout()
