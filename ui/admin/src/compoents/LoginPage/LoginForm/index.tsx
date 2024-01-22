@@ -10,6 +10,7 @@ import styles from './styles'
 import { AdminErrorWrapper } from '../../Global/AdminErrorWrapper'
 import { COLORS } from '../../../styles/theme'
 import { TLoginInfo } from '../../../types/api'
+import { useUserAuth } from '../../../hooks/useAuth'
 
 type TFormErrors = {
     email: string | null
@@ -32,6 +33,7 @@ const LoginForm: FC = () => {
     const [formErrors, setFormErrors] = useState<TFormErrors>(defaultFormErrors)
     const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const { loginUser } = useUserAuth()
 
     useEffect(() => {
         if (Object.values(formOptions).includes('')) {
@@ -52,12 +54,9 @@ const LoginForm: FC = () => {
     }
 
     const handleSubmit = async () => {
-        //needs to updated to use api functions once implemented
         setIsLoading(true)
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 1000)
-        //submit function here
+        await loginUser(formOptions)
+        setIsLoading(false)
     }
 
     return (
