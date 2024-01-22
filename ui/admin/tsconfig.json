@@ -21,7 +21,6 @@
     "jsx": "react-jsx",
     "noUnusedLocals": true,   
     "noImplicitAny": true,
-
   },
   "include": [
     "src"
