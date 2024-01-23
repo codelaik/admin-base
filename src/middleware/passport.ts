@@ -1,5 +1,6 @@
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt'
 import db from '../lib/prisma'
+import { exclude } from '../utils'
 
 const jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 const secretOrKey = process.env.SECRET_OR_KEY
@@ -18,7 +19,7 @@ export const initializePassport = async (passport: any) => {
             })
             if (user) {
                 // return the user
-                return done(null, user)
+                return done(null, exclude(user, 'password'))
             }
             // return false since there is no user
             return done(null, false)

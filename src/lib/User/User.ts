@@ -7,6 +7,7 @@ import { AUDIT_TYPE, ResponseStatus } from '../../types'
 import jwt from 'jsonwebtoken'
 import { Role, User } from '@prisma/client'
 import { addAuditLog } from '../audit'
+import { exclude } from '../../utils'
 
 const secretOrKey = process.env.SECRET_OR_KEY
 
@@ -35,7 +36,9 @@ export const getAdminUsers = async (req: Request, res: Response) => {
     }
 
     const rawUsers = await db.user.findMany()
-    const userObject = _.keyBy(rawUsers, 'id')
+    const parsedUsers = rawUsers.map((user) => exclude(user, 'password'))
+
+    const userObject = _.keyBy(parsedUsers, 'id')
 
     res.json({ ...userObject })
 }
@@ -84,7 +87,7 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     const loginInfo: { email: string; password: string } = req.body
-    const user: Partial<User> | null = await db.user.findUnique({
+    const user: User | null = await db.user.findUnique({
         where: { email: loginInfo.email },
     })
     if (!user || user.disabled) {
@@ -113,7 +116,7 @@ export const loginUser = async (req: Request, res: Response) => {
             res.json({
                 status: ResponseStatus.SUCCESS,
                 token: 'Bearer ' + token,
-                user: user,
+                user: exclude(user, 'password'),
             })
         }
     )
