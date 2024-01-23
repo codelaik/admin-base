@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import Logger from '../logger'
+import * as _ from 'lodash'
 import bcrypt from 'bcryptjs'
 import db from '../prisma'
 import { AUDIT_TYPE, ResponseStatus } from '../../types'
 import jwt from 'jsonwebtoken'
-import { User } from '@prisma/client'
+import { Role, User } from '@prisma/client'
 import { addAuditLog } from '../audit'
 
 const secretOrKey = process.env.SECRET_OR_KEY
@@ -22,8 +23,24 @@ export const usernameAvailability = async (req: Request, res: Response) => {
     res.json({ available: true })
 }
 
+const getAdminUsersRoles = [Role.SUPER_ADMIN, Role.ADMIN]
+export const getAdminUsers = async (req: Request, res: Response) => {
+    const initilizingUser = req.user as User
+    const UserRole = initilizingUser.role
+    if (!UserRole || !getAdminUsersRoles.some((role) => role === UserRole)) {
+        res.status(500).json({
+            status: ResponseStatus.FAILED,
+            errorMessage: 'Insuffient User Persmissions',
+        })
+    }
+
+    const rawUsers = await db.user.findMany()
+    const userObject = _.keyBy(rawUsers, 'id')
+
+    res.json({ ...userObject })
+}
+
 export const createUser = async (req: Request, res: Response) => {
-    Logger.info('/api/admin/user - post request')
     const initilizingUser = req.user || ({ username: 'Undefined' } as User)
     const userExists: Partial<User> | null = await db.user.findUnique({
         where: { email: req.body.email },
@@ -154,6 +171,6 @@ export const disableUser = async (req: Request, res: Response) => {
     changeUserState(req, res, false)
 }
 
-export const enalbeUser = async (req: Request, res: Response) => {
+export const enableUser = async (req: Request, res: Response) => {
     changeUserState(req, res, true)
 }
