@@ -3,8 +3,14 @@ import { LoginPage } from './pages/LoginPage'
 import { Routes, Route } from 'react-router-dom'
 import { Navbar } from './compoents/Global/NavBar'
 import { Box } from '@mui/material'
+import { useUserAuthContext } from './hooks/useAuth'
+import { LoadingPage } from './pages/LoadingPage'
 
 function App() {
+    const { isLoading } = useUserAuthContext()
+
+    if (isLoading) return <LoadingPage />
+
     return (
         <Box id="main-body">
             <Navbar />

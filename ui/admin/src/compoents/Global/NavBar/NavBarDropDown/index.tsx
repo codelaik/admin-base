@@ -16,7 +16,7 @@ type TNavbarDropdown = {
 export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
     const [isSelected, setIsSelected] = useState<boolean>(false)
     const { pathname } = useLocation()
-
+    console.log(localStorage.jwtToken)
     const parentRef = useRef()
 
     useEffect(() => {

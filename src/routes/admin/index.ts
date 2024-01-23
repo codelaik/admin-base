@@ -3,6 +3,7 @@ import {
     createUser,
     disableUser,
     enalbeUser,
+    getUser,
     loginUser,
 } from '../../lib/User/User'
 import passport from 'passport'
@@ -10,7 +11,11 @@ import passport from 'passport'
 const router = express.Router()
 
 //GET routes
-router.get('/users/current', passport.authenticate('jwt', { session: false }))
+router.get(
+    '/users/current',
+    passport.authenticate('jwt', { session: false }),
+    getUser
+)
 
 //POST routes
 router.post(
