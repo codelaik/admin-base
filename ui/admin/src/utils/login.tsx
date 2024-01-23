@@ -9,6 +9,21 @@ const setAuthToken = (token: string | null) => {
     axios.defaults.headers.common['Authorization'] = token
 }
 
+export const checkLogin = async () => {
+    try {
+        if (axios.defaults.headers.common['Authorization']) {
+            const { data } = await axios.get(
+                `http://localhost:8081/api/admin/users/current`
+            )
+            if (data) {
+                return data
+            }
+        }
+    } catch {
+        return null
+    }
+}
+
 //to be updated for hosted url
 export const login = async (loginData: TLoginInfo) => {
     const { data } = await axios.post(

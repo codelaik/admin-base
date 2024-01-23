@@ -1,10 +1,13 @@
 import { AuthEnforce } from './compoents/Global/AuthEnfore'
 import { LoginPage } from './pages/LoginPage'
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+import { Navbar } from './compoents/Global/NavBar'
+import { Box } from '@mui/material'
 
 function App() {
     return (
-        <BrowserRouter>
+        <Box id="main-body">
+            <Navbar />
             <Routes>
                 <Route
                     path="/login"
@@ -23,7 +26,7 @@ function App() {
                     }
                 />
             </Routes>
-        </BrowserRouter>
+        </Box>
     )
 }
 

@@ -9,6 +9,10 @@ import passport from 'passport'
 
 const router = express.Router()
 
+//GET routes
+router.get('/users/current', passport.authenticate('jwt', { session: false }))
+
+//POST routes
 router.post(
     '/users',
     passport.authenticate('jwt', { session: false }),
@@ -24,7 +28,5 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     enalbeUser
 )
-router.post('/users/current', passport.authenticate('jwt', { session: false }))
 router.post('/users/login', loginUser)
-
 export default router

@@ -1,7 +1,7 @@
-import { createContext, useContext, useState, FC } from 'react'
+import { createContext, useContext, useState, FC, useEffect } from 'react'
 import { TLoginInfo } from '../types/api'
 import { TUser } from '../types/entities'
-import { login, logout } from '../utils/login'
+import { checkLogin, login, logout } from '../utils/login'
 
 interface IUserAuthContext {
     loginUser: (data: TLoginInfo) => void
@@ -25,6 +25,18 @@ const useUserAuth = () => {
         setAuthed(false)
         setUser(null)
     }
+
+    useEffect(() => {
+        const checkUser = async () => {
+            const user = await checkLogin()
+            if (user) {
+                setAuthed(true)
+                setUser(user)
+            }
+        }
+
+        checkUser()
+    }, [])
 
     return { user, authed, logoutUser, loginUser }
 }
