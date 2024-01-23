@@ -111,7 +111,7 @@ export const getUser = (req: Request, res: Response) => {
         })
         return
     }
-    res.json({ user })
+    res.json(user)
 }
 
 const changeUserState = async (
