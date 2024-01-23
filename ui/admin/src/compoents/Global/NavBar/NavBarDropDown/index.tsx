@@ -8,7 +8,7 @@ type TNavbarDropdown = {
     title: string
     options: {
         title: string
-        path?: string
+        path: string
     }[]
 }
 

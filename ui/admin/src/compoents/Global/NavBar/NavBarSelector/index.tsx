@@ -1,16 +1,17 @@
 import { Box, Typography } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { COLORS } from '../../../../styles/theme'
 
 type TNavbarItem = {
     title: string
-    path?: string
+    path: string
 }
 
 export const NavbarItem: FC<TNavbarItem> = ({ title, path }) => {
     const { pathname } = useLocation()
     const [isSelected, setIsSelected] = useState<boolean>(path === pathname)
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (path === pathname) {
@@ -21,6 +22,8 @@ export const NavbarItem: FC<TNavbarItem> = ({ title, path }) => {
             setIsSelected(false)
         }
     }, [pathname])
+
+    const onClick = () => navigate(path)
 
     return (
         <Box
@@ -37,6 +40,7 @@ export const NavbarItem: FC<TNavbarItem> = ({ title, path }) => {
                     backgroundColor: isSelected ? null : COLORS.TEXT_TERTIARY,
                 },
             }}
+            onClick={onClick}
         >
             <Typography variant="h6" fontWeight="bold">
                 {title}

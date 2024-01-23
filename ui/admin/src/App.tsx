@@ -25,6 +25,14 @@ function App() {
                         </AuthEnforce>
                     }
                 />
+                <Route
+                    path="/g"
+                    element={
+                        <AuthEnforce>
+                            <h1>It Worked!!</h1>
+                        </AuthEnforce>
+                    }
+                />
             </Routes>
         </Box>
     )
