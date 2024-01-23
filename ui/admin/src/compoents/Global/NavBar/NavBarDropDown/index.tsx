@@ -1,8 +1,9 @@
 import { Box, Typography } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { COLORS } from '../../../../styles/theme'
 import { NavbarItem } from '../NavBarSelector'
+import autoAnimate from '@formkit/auto-animate'
 
 type TNavbarDropdown = {
     title: string
@@ -16,11 +17,19 @@ export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
     const [isSelected, setIsSelected] = useState<boolean>(false)
     const { pathname } = useLocation()
 
+    const parentRef = useRef()
+
+    useEffect(() => {
+        if (parentRef.current) {
+            autoAnimate(parentRef.current)
+        }
+    }, [parentRef])
+
     useEffect(() => {
         if (options.some((option) => option.path === pathname)) {
             setIsSelected(true)
         }
-    }, [pathname])
+    }, [pathname, options])
 
     return (
         <Box
@@ -66,6 +75,7 @@ export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
                               <NavbarItem
                                   path={option.path}
                                   title={option.title}
+                                  key={option.path}
                               />
                           )
                       })

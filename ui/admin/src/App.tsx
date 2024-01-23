@@ -21,7 +21,16 @@ function App() {
                     path="/"
                     element={
                         <AuthEnforce>
-                            <h1>Logged In!</h1>
+                            <h1
+                                style={
+                                    {
+                                        // backgroundColor: 'white',
+                                        // width: '100%',
+                                    }
+                                }
+                            >
+                                Logged In!
+                            </h1>
                         </AuthEnforce>
                     }
                 />

@@ -3,21 +3,22 @@ import axios from 'axios'
 
 const setAuthToken = (token: string | null) => {
     if (!token) {
+        localStorage.removeItem('JWT')
         delete axios.defaults.headers.common['Authorization']
         return
     }
+    localStorage.setItem('JWT', token)
     axios.defaults.headers.common['Authorization'] = token
 }
 
 export const checkLogin = async () => {
     try {
-        if (axios.defaults.headers.common['Authorization']) {
-            const { data } = await axios.get(
-                `http://localhost:8081/api/admin/users/current`
-            )
-            if (data) {
-                return data
-            }
+        setAuthToken(localStorage.getItem('JWT'))
+        const { data } = await axios.get(
+            `http://localhost:8081/api/admin/users/current`
+        )
+        if (data) {
+            return data
         }
     } catch {
         return null

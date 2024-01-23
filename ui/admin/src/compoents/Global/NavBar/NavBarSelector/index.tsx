@@ -21,7 +21,8 @@ export const NavbarItem: FC<TNavbarItem> = ({ title, path }) => {
         if (isSelected === true) {
             setIsSelected(false)
         }
-    }, [pathname])
+        // eslint-disable-next-line
+    }, [pathname, path])
 
     const onClick = () => navigate(path)
 

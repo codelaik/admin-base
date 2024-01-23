@@ -28,6 +28,7 @@ const useUserAuth = () => {
 
     useEffect(() => {
         const checkUser = async () => {
+            console.log('hit')
             const user = await checkLogin()
             if (user) {
                 setAuthed(true)

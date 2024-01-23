@@ -18,7 +18,8 @@ export const Navbar: FC = () => {
                 <img
                     style={styles.profilePhoto}
                     src="https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png"
-                ></img>
+                    alt="profile"
+                />
                 <Typography
                     sx={{ textAlign: 'left' }}
                     textAlign="left"

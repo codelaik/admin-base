@@ -1,11 +1,12 @@
 import { COLORS } from '../../../styles/theme'
 
-export default {
+const styles = {
     navBarContainer: {
         backgroundColor: COLORS.PRIMARY,
         width: '20%',
         height: '100vh',
-        borderRight: '1px solid black',
+        // borderRight: '1px solid black',
+        boxShadow: `1px 10px 10px 1px ${COLORS.PRIMARY}`,
         display: 'flex',
         flexDirection: 'column',
     },
@@ -25,3 +26,5 @@ export default {
         borderRadius: '100%',
     },
 }
+
+export default styles

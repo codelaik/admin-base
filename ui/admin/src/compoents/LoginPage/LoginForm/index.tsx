@@ -45,7 +45,7 @@ const LoginForm: FC = () => {
         }
 
         setIsSubmitDisabled(false)
-    }, [formErrors])
+    }, [formErrors, formOptions])
 
     const handleChange = (e: any) => {
         const hasError = !e.target.value || e.target.value === ''
