@@ -3,7 +3,7 @@ import { COLORS } from '../../../styles/theme'
 const styles = {
     navBarContainer: {
         backgroundColor: COLORS.PRIMARY,
-        width: '20%',
+        width: '18%',
         height: '100vh',
         // borderRight: '1px solid black',
         boxShadow: `1px 10px 10px 1px ${COLORS.PRIMARY}`,
