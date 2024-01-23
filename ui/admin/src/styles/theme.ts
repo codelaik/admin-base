@@ -16,7 +16,7 @@ export enum COLORS {
 export const theme = createTheme({
     palette: {
         background: {
-            default: COLORS.PRIMARY,
+            default: COLORS.SECONDARY,
         },
         primary: {
             main: COLORS.PRIMARY,
