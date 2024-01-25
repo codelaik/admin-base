@@ -5,6 +5,8 @@ const styles = {
         backgroundColor: COLORS.PRIMARY,
         width: '18%',
         height: '100vh',
+        overflow: 'scroll',
+        'overflow-y': 'none',
         // borderRight: '1px solid black',
         boxShadow: `1px 10px 10px 1px ${COLORS.PRIMARY}`,
         display: 'flex',

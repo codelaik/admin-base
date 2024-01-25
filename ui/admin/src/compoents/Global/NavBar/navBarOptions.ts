@@ -20,3 +20,10 @@ export const pages = [
         path: '/e',
     },
 ]
+
+export const admin = [
+    {
+        title: 'Users',
+        path: '/admin/users',
+    },
+]

@@ -4,7 +4,7 @@ import { useUserAuthContext } from '../../../hooks/useAuth'
 import styles from './styles'
 import { NavbarItem } from './NavBarSelector'
 import { NavbarDropdown } from './NavBarDropDown'
-import { pages } from './navBarOptions'
+import { admin, pages } from './navBarOptions'
 
 export const Navbar: FC = () => {
     const { user } = useUserAuthContext()
@@ -32,7 +32,7 @@ export const Navbar: FC = () => {
             <NavbarItem path="/" title="Home" />
             <NavbarDropdown title="Pages" options={pages} />
             <NavbarItem path="/analytics" title="Analytics" />
-            <NavbarItem path="/admin" title="Admin" />
+            <NavbarDropdown title="Admin" options={admin} />
         </Box>
     )
 }

@@ -5,6 +5,8 @@ import { Navbar } from './compoents/Global/NavBar'
 import { Box } from '@mui/material'
 import { useUserAuthContext } from './hooks/useAuth'
 import { LoadingPage } from './pages/LoadingPage'
+import { AdminUsersPage } from './pages/AdminUsers'
+import { AdminUsersProvider } from './hooks/useAdminUsers'
 
 function App() {
     const { isLoading } = useUserAuthContext()
@@ -27,24 +29,17 @@ function App() {
                     path="/"
                     element={
                         <AuthEnforce>
-                            <h1
-                                style={
-                                    {
-                                        // backgroundColor: 'white',
-                                        // width: '100%',
-                                    }
-                                }
-                            >
-                                Logged In!
-                            </h1>
+                            <h1>Logged In!</h1>
                         </AuthEnforce>
                     }
                 />
                 <Route
-                    path="/g"
+                    path="/admin/users"
                     element={
                         <AuthEnforce>
-                            <h1>It Worked!!</h1>
+                            <AdminUsersProvider>
+                                <AdminUsersPage />
+                            </AdminUsersProvider>
                         </AuthEnforce>
                     }
                 />

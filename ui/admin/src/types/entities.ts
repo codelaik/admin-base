@@ -8,6 +8,6 @@ export type TUser = {
     id: number
     email: string
     username: string
-    password: string
-    Role: Role
+    role: Role
+    disabled: boolean
 }
