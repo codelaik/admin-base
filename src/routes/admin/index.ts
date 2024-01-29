@@ -24,11 +24,13 @@ router.get(
 )
 
 //POST routes
-router.post(
-    '/users',
-    passport.authenticate('jwt', { session: false }),
-    createUser
-)
+if (process.env.NODE_ENV === 'development') {
+    router.post(
+        '/users',
+        passport.authenticate('jwt', { session: false }),
+        createUser
+    )
+}
 router.post(
     '/users/:id/disable',
     passport.authenticate('jwt', { session: false }),
