@@ -14,7 +14,7 @@ export const initializePassport = async (passport: any) => {
         new Strategy(options, async (jwt_payload, done) => {
             const user = await db.user.findUnique({
                 where: {
-                    id: jwt_payload.id,
+                    email: jwt_payload.email,
                 },
             })
             if (user) {
