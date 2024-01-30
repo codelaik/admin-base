@@ -148,7 +148,7 @@ export const loginUser = async (req: Request, res: Response) => {
         })
         return
     }
-    const payload = { id: user.id, username: user.email }
+    const payload = { id: user.id, email: user.email }
 
     jwt.sign(
         payload,
