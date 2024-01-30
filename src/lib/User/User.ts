@@ -7,15 +7,15 @@ import { AUDIT_TYPE, ResponseStatus } from '../../types'
 import jwt from 'jsonwebtoken'
 import { Role, User } from '@prisma/client'
 import { addAuditLog } from '../audit'
-import { exclude } from '../../utils'
+import { encrypt, exclude } from '../../utils'
 
 const secretOrKey = process.env.SECRET_OR_KEY
 
-export const usernameAvailability = async (req: Request, res: Response) => {
-    const usernameExists: Partial<User> | null = await db.user.findUnique({
-        where: { username: req.body.username },
+export const emailAvailability = async (req: Request, res: Response) => {
+    const emailExists: Partial<User> | null = await db.user.findUnique({
+        where: { email: req.body.email },
     })
-    if (!!usernameExists) {
+    if (!!emailExists) {
         res.json({
             available: false,
         })
@@ -27,15 +27,29 @@ export const usernameAvailability = async (req: Request, res: Response) => {
 const getAdminUsersRoles = [Role.SUPER_ADMIN, Role.ADMIN]
 export const getAdminUsers = async (req: Request, res: Response) => {
     const initilizingUser = req.user as User
-    const UserRole = initilizingUser.role
-    if (!UserRole || !getAdminUsersRoles.some((role) => role === UserRole)) {
+    const userRole = initilizingUser.role
+    if (!userRole || !getAdminUsersRoles.some((role) => role === userRole)) {
         res.status(500).json({
             status: ResponseStatus.FAILED,
             errorMessage: 'Insuffient User Persmissions',
         })
+        return
     }
 
-    const rawUsers = await db.user.findMany()
+    //checks if the user has proper permissions and showDisabled was set to true
+    const shouldShowDisabled =
+        userRole === Role.SUPER_ADMIN && req.body.showDisabled
+
+    //if value is true, all users are returned. If false, on NON disabled users are shown
+    const rawUsers = await db.user.findMany(
+        shouldShowDisabled
+            ? undefined
+            : {
+                  where: {
+                      disabled: false,
+                  },
+              }
+    )
     const parsedUsers = rawUsers.map((user) => exclude(user, 'password'))
 
     const userObject = _.keyBy(parsedUsers, 'id')
@@ -43,43 +57,71 @@ export const getAdminUsers = async (req: Request, res: Response) => {
     res.json({ ...userObject })
 }
 
-export const createUser = async (req: Request, res: Response) => {
-    const initilizingUser = req.user || ({ username: 'Undefined' } as User)
-    const userExists: Partial<User> | null = await db.user.findUnique({
-        where: { email: req.body.email },
+const createUserBase = async (user: Partial<User>) => {
+    const userExists: User | null = await db.user.findUnique({
+        where: { email: user.email },
     })
-    if (!!userExists)
-        res.status(500).json({
-            status: ResponseStatus.FAILED,
-            errorMessage: 'Email Already Taken',
-        })
+    if (!!userExists) return false
 
-    const unencryptedPassword = req.body.password
-    const salt = await bcrypt.genSalt(10)
-    const encryptedPassword = await bcrypt.hash(unencryptedPassword, salt)
+    const encryptedPassword = await encrypt(user.password as string)
     const savedUser = await db.user.create({
         data: {
-            username: req.body.username,
-            email: req.body.email,
+            username: user.username as string,
+            email: user.email as string,
             password: encryptedPassword,
             disabled: false,
         },
     })
+    return savedUser
+}
+
+export const createUserAsAdmin = async (req: Request, res: Response) => {
+    const adminUser = req.user as User
+
+    const newUser: Partial<User> = {
+        //role is set first to set a default permissions level, then overwritten if an alternate level is provided
+        role: Role.MODERATOR,
+        ...req.body,
+        disabled: false,
+    }
+
+    const savedUser = await createUserBase(newUser)
+
+    if (!savedUser) {
+        res.status(500).json({
+            status: ResponseStatus.FAILED,
+            errorMessage: 'Failed to create User',
+        })
+        return
+    }
+
+    await addAuditLog(adminUser, AUDIT_TYPE.CREATED_ACCOUNT, savedUser.email)
+
+    res.json({
+        status: ResponseStatus.SUCCESS,
+        user: exclude(savedUser, 'password'),
+    })
+}
+
+export const createUser = async (req: Request, res: Response) => {
+    const savedUser = await createUserBase(req.body)
+    if (!savedUser) {
+        res.status(500).json({
+            status: ResponseStatus.FAILED,
+            errorMessage: 'Email Already Taken',
+        })
+        return
+    }
     const payload = { id: savedUser.id, email: savedUser.email }
     jwt.sign(
         payload,
         secretOrKey as string,
         {},
         (_: Error | null, token?: string) => {
-            addAuditLog(
-                initilizingUser as User,
-                AUDIT_TYPE.CREATED_ACCOUNT,
-                savedUser.username
-            )
             res.json({
                 status: ResponseStatus.SUCCESS,
                 token: 'Bearer ' + token,
-                user: savedUser,
+                user: exclude(savedUser, 'password'),
             })
         }
     )

@@ -8,7 +8,11 @@ import { User } from '@prisma/client'
  * @param type Type of action taking placw
  * @param action What the action results in
  */
-export const addAuditLog = (user: User, type: AUDIT_TYPE, action: string) => {
+export const addAuditLog = async (
+    user: User,
+    type: AUDIT_TYPE,
+    action: string
+) => {
     db.auditLog.create({
         data: {
             type,
