@@ -3,12 +3,12 @@ import bcrypt from 'bcryptjs'
 const prisma = new PrismaClient();
 async function main() {
   const superAdmin = await prisma.user.upsert({
-    where: { email: 'alice@prisma.io' },
+    where: { email: 'admin@codeliak.com' },
     update: {
         // password: await bcrypt.hash('JoshSucks', await bcrypt.genSalt(10))
     },
     create: {
-      email: 'alice@prisma.io',
+      email: 'admin@codeliak.com',
       username: 'SuperAdmin',
       password: await bcrypt.hash('JoshSucks', await bcrypt.genSalt(10)),
       role: 'SUPER_ADMIN'
