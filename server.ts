@@ -13,7 +13,7 @@ const app = Express()
 const port = process.env.PORT || 8081
 
 //set up middlewares
-app.use(cors({ origin: 'http://localhost:3001' }))
+app.use(cors({ origin: 'http://localhost:3000' }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(passport.initialize())
