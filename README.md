@@ -6,7 +6,7 @@ Base Admin Site with Backend, Admin Ui, and User UI
 
 **Client:** React, Redux, Typescript
 
-**Admin:** React, Overmind, Typescript
+**Admin:** React, Typescript
 
 **Server:** Node, Express, PostgreSQL, Typescript, pnpm, jest, prisma
 
@@ -14,11 +14,14 @@ Base Admin Site with Backend, Admin Ui, and User UI
 
 Install postgres if you haven't already. Once installed, create a user and add a password.
 
+- To access the user on ubuntu, use `sudo -u postgres psql`
+
 Create a .env file in the root of server and add the following variables:
 
 ```
 PORT="8081" //This should be the port you want the server to run on
 DATABASE_URL="postgres://USER:PASSWORD@localhost:5432/admin-base" //all caps should be replaced with your user role : password
+SECRET_OR_KEY="--" //this should be generated using a hash generator
 ```
 
 after this step, run

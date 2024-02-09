@@ -22,7 +22,7 @@ model User {
   username    String        @unique
   password    String
   role        Role?
-  disabled    Boolean
+  disabled    Boolean?      @default(false)
   auditLogs   AuditLog[]
   signUpOffer signUpOffer[]
 }
