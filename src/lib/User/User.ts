@@ -79,8 +79,6 @@ export const createUserAsAdmin = async (req: Request, res: Response) => {
     const adminUser = req.user as User
 
     const newUser: Partial<User> = {
-        //role is set first to set a default permissions level, then overwritten if an alternate level is provided
-        role: Role.MODERATOR,
         ...req.body,
         disabled: false,
     }
@@ -112,7 +110,7 @@ export const createUser = async (req: Request, res: Response) => {
         })
         return
     }
-    const payload = { id: savedUser.id, email: savedUser.email }
+    const payload = { id: savedUser.id, username: savedUser.username }
     jwt.sign(
         payload,
         secretOrKey as string,
@@ -148,7 +146,7 @@ export const loginUser = async (req: Request, res: Response) => {
         })
         return
     }
-    const payload = { id: user.id, email: user.email }
+    const payload = { id: user.id, username: user.username }
 
     jwt.sign(
         payload,

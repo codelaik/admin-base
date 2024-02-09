@@ -12,9 +12,10 @@ const options: StrategyOptions = {
 export const initializePassport = async (passport: any) => {
     passport.use(
         new Strategy(options, async (jwt_payload, done) => {
+            console.log(jwt_payload)
             const user = await db.user.findUnique({
                 where: {
-                    email: jwt_payload.email,
+                    username: jwt_payload.username,
                 },
             })
             if (user) {

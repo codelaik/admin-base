@@ -14,9 +14,10 @@ interface IAdminUsersTable {
 
 export const AdminUsersTable: FC<IAdminUsersTable> = ({ users }) => {
     const userList = Object.values(users)
+    console.log(userList)
 
     return (
-        <TableContainer component={Paper} sx={{ width: '100%' }}>
+        <TableContainer component={Paper} sx={{ width: '70vw' }}>
             <Table sx={{ minWidth: '90%' }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
