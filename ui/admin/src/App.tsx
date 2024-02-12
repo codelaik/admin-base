@@ -7,6 +7,7 @@ import { useUserAuthContext } from './hooks/useAuth'
 import { LoadingPage } from './pages/LoadingPage'
 import { AdminUsersPage } from './pages/AdminUsers'
 import { AdminUsersProvider } from './hooks/useAdminUsers'
+import ErrorBoundary from './pages/ErrorBoundary'
 
 function App() {
     const { isLoading } = useUserAuthContext()
@@ -16,34 +17,36 @@ function App() {
     return (
         <Box id="main-body">
             <Navbar />
-            <Routes>
-                <Route
-                    path="/login"
-                    element={
-                        <AuthEnforce noAuth>
-                            <LoginPage />
-                        </AuthEnforce>
-                    }
-                />
-                <Route
-                    path="/"
-                    element={
-                        <AuthEnforce>
-                            <h1>Logged In!</h1>
-                        </AuthEnforce>
-                    }
-                />
-                <Route
-                    path="/admin/users"
-                    element={
-                        <AuthEnforce>
-                            <AdminUsersProvider>
-                                <AdminUsersPage />
-                            </AdminUsersProvider>
-                        </AuthEnforce>
-                    }
-                />
-            </Routes>
+            <ErrorBoundary>
+                <Routes>
+                    <Route
+                        path="/login"
+                        element={
+                            <AuthEnforce noAuth>
+                                <LoginPage />
+                            </AuthEnforce>
+                        }
+                    />
+                    <Route
+                        path="/"
+                        element={
+                            <AuthEnforce>
+                                <h1>Logged In!</h1>
+                            </AuthEnforce>
+                        }
+                    />
+                    <Route
+                        path="/admin/users"
+                        element={
+                            <AuthEnforce>
+                                <AdminUsersProvider>
+                                    <AdminUsersPage />
+                                </AdminUsersProvider>
+                            </AuthEnforce>
+                        }
+                    />
+                </Routes>
+            </ErrorBoundary>
         </Box>
     )
 }
