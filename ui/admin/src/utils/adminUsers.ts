@@ -1,6 +1,6 @@
-import axios from 'axios'
+import { RequestType, fetcher } from './fetch'
 
 export const getAllUsers = async () => {
-    const { data } = await axios.get(`http://localhost:8081/api/admin/users/`)
+    const data = await fetcher(RequestType.GET, `http://localhost:8081/api/admin/users/` )
     return data
 }

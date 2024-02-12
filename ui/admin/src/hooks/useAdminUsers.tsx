@@ -12,8 +12,9 @@ const useAdminUsers = () => {
     useEffect(() => {
         const getAdminUsers = async () => {
             const res = await getAllUsers()
-            console.log(res)
-            setUsers({ ...res })
+            if (res) {
+                setUsers({ ...res.data })
+            }
         }
 
         getAdminUsers()
