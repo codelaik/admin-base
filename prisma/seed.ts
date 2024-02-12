@@ -1,17 +1,17 @@
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs'
+import { PrismaClient, Role } from '@prisma/client';
+import { encrypt } from '../src/utils';
 const prisma = new PrismaClient();
 async function main() {
   const superAdmin = await prisma.user.upsert({
-    where: { email: 'admin@codeliak.com' },
+    where: { email: 'admin@codelaik.com' },
     update: {
         // password: await bcrypt.hash('JoshSucks', await bcrypt.genSalt(10))
     },
     create: {
-      email: 'admin@codeliak.com',
+      email: 'admin@codelaik.com',
       username: 'SuperAdmin',
-      password: await bcrypt.hash('JoshSucks', await bcrypt.genSalt(10)),
-      role: 'SUPER_ADMIN'
+      password: await encrypt('JoshSucks'),
+      role: Role.SUPER_ADMIN
     },
   })
   console.log({ superAdmin })
