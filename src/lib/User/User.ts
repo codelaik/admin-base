@@ -68,6 +68,7 @@ const createUserBase = async (user: Partial<User>) => {
         data: {
             username: user.username as string,
             email: user.email as string,
+            role: user.role as Role,
             password: encryptedPassword,
             disabled: false,
         },
@@ -82,7 +83,7 @@ export const createUserAsAdmin = async (req: Request, res: Response) => {
         ...req.body,
         disabled: false,
     }
-
+    console.log(req.body)
     const savedUser = await createUserBase(newUser)
 
     if (!savedUser) {
