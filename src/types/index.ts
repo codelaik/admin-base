@@ -6,6 +6,8 @@ export enum AUDIT_TYPE {
     VIEW = 'VIEW',
     CREATED_ACCOUNT = 'CREATED_ACCOUNT',
     DISABLED_ACCOUNT = 'DISABLED_ACCOUNT',
+    ENABLED_ACCOUNT = 'ENABLED_ACCOUNT',
+    UPDATED_ROLE = 'UPDATED_ROLE'
 }
 
 export type ReqWithUser = Request & {

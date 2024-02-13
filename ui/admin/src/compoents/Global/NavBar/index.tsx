@@ -4,11 +4,14 @@ import { useUserAuthContext } from '../../../hooks/useAuth'
 import styles from './styles'
 import { NavbarItem } from './NavBarSelector'
 import { NavbarDropdown } from './NavBarDropDown'
-import { admin, pages } from './navBarOptions'
+import { navbarOptions } from './navBarOptions'
 
 export const Navbar: FC = () => {
     const { user } = useUserAuthContext()
     if (!user) return null
+
+    let options = navbarOptions[user.role]
+
     return (
         <Box sx={styles.navBarContainer}>
             <Box sx={styles.titleContainer}>
@@ -26,13 +29,20 @@ export const Navbar: FC = () => {
                     variant="h6"
                     color="white"
                 >
-                    {user.username}
+                    {user?.username}
                 </Typography>
             </Box>
-            <NavbarItem path="/" title="Home" />
-            <NavbarDropdown title="Pages" options={pages} />
-            <NavbarItem path="/analytics" title="Analytics" />
-            <NavbarDropdown title="Admin" options={admin} />
+            {options.map((option: any) => {
+                if (!!option.dropdown) {
+                    return (
+                        <NavbarDropdown
+                            title={option.title}
+                            options={option.dropdown}
+                        />
+                    )
+                }
+                return <NavbarItem path={option.path} title={option.title} />
+            })}
         </Box>
     )
 }

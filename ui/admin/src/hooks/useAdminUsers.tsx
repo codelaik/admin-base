@@ -1,30 +1,62 @@
 import { createContext, useContext, useState, FC, useEffect } from 'react'
-import { TUser } from '../types/entities'
-import { getAllUsers } from '../utils/adminUsers'
+import { Role, TUser } from '../types/entities'
+import {
+    getAllUsers,
+    updateUserDiabled,
+    updateUserRole,
+} from '../utils/adminUsers'
+import toast from 'react-hot-toast'
 
 interface IAdminUsersContext {
     users: Record<string, TUser>
+    setShowDisabled: ((_: boolean) => void) | null
+    showDisabled: boolean
+    updateDisabled: (id: number, role: boolean) => void
+    updateRole: (id: number, role: Role) => void
 }
 
 const useAdminUsers = () => {
     const [users, setUsers] = useState<Record<string, TUser>>({})
+    const [showDisabled, setShowDisabled] = useState<boolean>(false)
 
     useEffect(() => {
         const getAdminUsers = async () => {
-            const res = await getAllUsers()
+            const res = await getAllUsers(showDisabled)
             if (res) {
                 setUsers({ ...res.data })
             }
         }
 
         getAdminUsers()
-    }, [])
+    }, [showDisabled])
 
-    return { users }
+    const updateDisabled = async (id: number, disabled: boolean) => {
+        const newUser = await updateUserDiabled(id, disabled)
+        if (newUser) {
+            toast.success(
+                `User Successfully ${disabled ? 'Disabled' : 'Enabled'}`
+            )
+            setUsers({ ...users, [newUser.id]: newUser })
+        }
+    }
+
+    const updateRole = async (id: number, role: Role) => {
+        const newUser = await updateUserRole(id, role)
+        if (newUser) {
+            toast.success(`User Role Successfully Updated`)
+            setUsers({ ...users, [newUser.id]: newUser })
+        }
+    }
+
+    return { users, showDisabled, setShowDisabled, updateDisabled, updateRole }
 }
 
 const AdminUsersContext = createContext<IAdminUsersContext>({
     users: {},
+    showDisabled: false,
+    setShowDisabled(_) {},
+    updateDisabled(_, __) {},
+    updateRole(_, __) {},
 })
 
 export const AdminUsersProvider: FC<{ children: any }> = ({ children }) => {

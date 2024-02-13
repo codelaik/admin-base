@@ -1,9 +1,8 @@
 import express from 'express'
 import {
-    createUser,
     createUserAsAdmin,
-    disableUser,
-    enableUser,
+    updateUserDisabled,
+    updateUserRole,
     getAdminUsers,
     getUser,
     loginUser,
@@ -18,16 +17,16 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     getUser
 )
-router.get(
+
+//POST routes
+// if (process.env.NODE_ENV === 'development') {
+//     router.post('/users', createUser)
+// }
+router.post(
     '/users',
     passport.authenticate('jwt', { session: false }),
     getAdminUsers
 )
-
-//POST routes
-if (process.env.NODE_ENV === 'development') {
-    router.post('/users', createUser)
-}
 router.post(
     '/users/create',
     passport.authenticate('jwt', { session: false }),
@@ -36,12 +35,12 @@ router.post(
 router.post(
     '/users/:id/disable',
     passport.authenticate('jwt', { session: false }),
-    disableUser
+    updateUserDisabled
 )
 router.post(
-    '/users/:id/enable',
+    '/users/:id/role',
     passport.authenticate('jwt', { session: false }),
-    enableUser
+    updateUserRole
 )
 router.post('/users/login', loginUser)
 export default router

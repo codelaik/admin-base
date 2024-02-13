@@ -163,8 +163,8 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 export const getUser = (req: Request, res: Response) => {
-    const user = req.user
-    if (!user) {
+    const user = req.user as User
+    if (!user || user.disabled) {
         Logger.warn('No current User found')
         res.status(500).json({
             errorMessage: 'No Current User Found',
@@ -174,10 +174,11 @@ export const getUser = (req: Request, res: Response) => {
     res.json(user)
 }
 
-const changeUserState = async (
+const updateUser = async (
     req: Request,
     res: Response,
-    status: boolean
+    data: Partial<User>,
+    auditType: AUDIT_TYPE
 ) => {
     const adminUser = req.body as User
     const id = Number(req.params.id)
@@ -186,7 +187,7 @@ const changeUserState = async (
         where: { id },
     })
     if (!user) {
-        res.status(500).json({ error: 'User Found' })
+        res.status(500).json({ error: 'User Not Found' })
         return
     }
 
@@ -194,14 +195,14 @@ const changeUserState = async (
         where: {
             id,
         },
-        data: {
-            disabled: status,
-        },
+        data
     })
+
+
 
     await addAuditLog(
         adminUser,
-        AUDIT_TYPE.DISABLED_ACCOUNT,
+        auditType,
         updatedUser.username
     )
 
@@ -210,10 +211,11 @@ const changeUserState = async (
     })
 }
 
-export const disableUser = async (req: Request, res: Response) => {
-    changeUserState(req, res, false)
+export const updateUserDisabled = async (req: Request, res: Response) => {
+    const disabled = req.body.disabled;
+    updateUser(req, res, { disabled }, disabled ? AUDIT_TYPE.DISABLED_ACCOUNT : AUDIT_TYPE.ENABLED_ACCOUNT)
 }
 
-export const enableUser = async (req: Request, res: Response) => {
-    changeUserState(req, res, true)
+export const updateUserRole = async (req: Request, res: Response) => {
+    updateUser(req, res, { role: req.body.role }, AUDIT_TYPE.UPDATED_ROLE)
 }

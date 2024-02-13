@@ -6,25 +6,45 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { FC } from 'react'
 import { TUser } from '../../../types/entities'
-import { Checkbox, Paper } from '@mui/material'
+import {
+    Checkbox,
+    MenuItem,
+    Paper,
+    Select,
+    SelectChangeEvent,
+} from '@mui/material'
+import { Role } from '../../../types/entities'
 
 interface IAdminUsersTable {
     users: Record<string, TUser>
+    updateDisabled: (id: number, disabled: boolean) => void
+    updateUserRole: (id: number, role: Role) => void
 }
 
-export const AdminUsersTable: FC<IAdminUsersTable> = ({ users }) => {
+export const AdminUsersTable: FC<IAdminUsersTable> = ({
+    users,
+    updateDisabled,
+    updateUserRole,
+}) => {
     const userList = Object.values(users)
     console.log(userList)
 
+    const handleRoleChange = (id: number) => (event: SelectChangeEvent) => {
+        updateUserRole(id, event.target.value as Role)
+    }
+
     return (
-        <TableContainer component={Paper} sx={{ width: '70vw' }}>
+        <TableContainer
+            component={Paper}
+            sx={{ width: '70vw', maxHeight: '300px' }}
+        >
             <Table sx={{ minWidth: '90%' }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Id</TableCell>
                         <TableCell align="right">Username</TableCell>
                         <TableCell align="right">Email</TableCell>
-                        <TableCell align="right">Role</TableCell>
+                        <TableCell align="center">Role</TableCell>
                         <TableCell align="right">Disabled</TableCell>
                     </TableRow>
                 </TableHead>
@@ -43,9 +63,29 @@ export const AdminUsersTable: FC<IAdminUsersTable> = ({ users }) => {
                             </TableCell>
                             <TableCell align="right">{row.username}</TableCell>
                             <TableCell align="right">{row.email}</TableCell>
-                            <TableCell align="right">{row.role}</TableCell>
+                            <TableCell align="center">
+                                <Select
+                                    value={row.role}
+                                    onChange={handleRoleChange(row.id)}
+                                >
+                                    <MenuItem value={Role.SUPER_ADMIN}>
+                                        Super Admin
+                                    </MenuItem>
+                                    <MenuItem value={Role.ADMIN}>
+                                        Admin
+                                    </MenuItem>
+                                    <MenuItem value={Role.MODERATOR}>
+                                        Moderator
+                                    </MenuItem>
+                                </Select>
+                            </TableCell>
                             <TableCell align="right">
-                                <Checkbox value={row.disabled} />
+                                <Checkbox
+                                    checked={row.disabled}
+                                    onClick={() =>
+                                        updateDisabled(row.id, !row.disabled)
+                                    }
+                                />
                             </TableCell>
                         </TableRow>
                     ))}
