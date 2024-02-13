@@ -4,7 +4,7 @@ import { useAdminUsersContext } from '../../hooks/useAdminUsers'
 import { AdminUsersTable } from '../../compoents/AdminUsersPage/AdminUsersTable'
 
 export const AdminUsersPage: FC = () => {
-    const { users, setShowDisabled, showDisabled, updateDisabled } =
+    const { users, setShowDisabled, showDisabled, updateDisabled, updateRole } =
         useAdminUsersContext()
     console.log(showDisabled)
 
@@ -33,6 +33,7 @@ export const AdminUsersPage: FC = () => {
                 <AdminUsersTable
                     users={users}
                     updateDisabled={updateDisabled}
+                    updateUserRole={updateRole}
                 />
                 <Typography>
                     <Checkbox value={showDisabled} onClick={onClick} />

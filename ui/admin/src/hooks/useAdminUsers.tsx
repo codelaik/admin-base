@@ -1,12 +1,18 @@
 import { createContext, useContext, useState, FC, useEffect } from 'react'
-import { TUser } from '../types/entities'
-import { getAllUsers, updateUserDiabled } from '../utils/adminUsers'
+import { Role, TUser } from '../types/entities'
+import {
+    getAllUsers,
+    updateUserDiabled,
+    updateUserRole,
+} from '../utils/adminUsers'
+import toast from 'react-hot-toast'
 
 interface IAdminUsersContext {
     users: Record<string, TUser>
     setShowDisabled: ((_: boolean) => void) | null
     showDisabled: boolean
-    updateDisabled: (_: number, __: boolean) => void
+    updateDisabled: (id: number, role: boolean) => void
+    updateRole: (id: number, role: Role) => void
 }
 
 const useAdminUsers = () => {
@@ -26,10 +32,23 @@ const useAdminUsers = () => {
 
     const updateDisabled = async (id: number, disabled: boolean) => {
         const newUser = await updateUserDiabled(id, disabled)
-        setUsers({ ...users, [newUser.id]: newUser })
+        if (newUser) {
+            toast.success(
+                `User Successfully ${disabled ? 'Disabled' : 'Enabled'}`
+            )
+            setUsers({ ...users, [newUser.id]: newUser })
+        }
     }
 
-    return { users, showDisabled, setShowDisabled, updateDisabled }
+    const updateRole = async (id: number, role: Role) => {
+        const newUser = await updateUserRole(id, role)
+        if (newUser) {
+            toast.success(`User Role Successfully Updated`)
+            setUsers({ ...users, [newUser.id]: newUser })
+        }
+    }
+
+    return { users, showDisabled, setShowDisabled, updateDisabled, updateRole }
 }
 
 const AdminUsersContext = createContext<IAdminUsersContext>({
@@ -37,6 +56,7 @@ const AdminUsersContext = createContext<IAdminUsersContext>({
     showDisabled: false,
     setShowDisabled(_) {},
     updateDisabled(_, __) {},
+    updateRole(_, __) {},
 })
 
 export const AdminUsersProvider: FC<{ children: any }> = ({ children }) => {
