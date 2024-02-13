@@ -1,6 +1,5 @@
 import express from 'express'
 import {
-    createUser,
     createUserAsAdmin,
     disableUser,
     enableUser,
@@ -18,16 +17,16 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     getUser
 )
-router.get(
+
+//POST routes
+// if (process.env.NODE_ENV === 'development') {
+//     router.post('/users', createUser)
+// }
+router.post(
     '/users',
     passport.authenticate('jwt', { session: false }),
     getAdminUsers
 )
-
-//POST routes
-if (process.env.NODE_ENV === 'development') {
-    router.post('/users', createUser)
-}
 router.post(
     '/users/create',
     passport.authenticate('jwt', { session: false }),

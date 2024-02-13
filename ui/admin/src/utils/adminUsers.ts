@@ -1,6 +1,6 @@
 import { RequestType, fetcher } from './fetch'
 
-export const getAllUsers = async () => {
-    const data = await fetcher(RequestType.GET, `http://localhost:8081/api/admin/users/` )
-    return data
+export const getAllUsers = async (showDisabled: boolean) => {
+    const res = await fetcher(RequestType.POST, `http://localhost:8081/api/admin/users/`, { showDisabled } )
+    return res
 }

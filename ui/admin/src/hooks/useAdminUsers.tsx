@@ -4,27 +4,32 @@ import { getAllUsers } from '../utils/adminUsers'
 
 interface IAdminUsersContext {
     users: Record<string, TUser>
+    setShowDisabled: ((_: boolean) => void) | null
+    showDisabled: boolean
 }
 
 const useAdminUsers = () => {
     const [users, setUsers] = useState<Record<string, TUser>>({})
+    const [showDisabled, setShowDisabled] = useState<boolean>(false)
 
     useEffect(() => {
         const getAdminUsers = async () => {
-            const res = await getAllUsers()
+            const res = await getAllUsers(showDisabled)
             if (res) {
                 setUsers({ ...res.data })
             }
         }
 
         getAdminUsers()
-    }, [])
+    }, [showDisabled])
 
-    return { users }
+    return { users, showDisabled, setShowDisabled }
 }
 
 const AdminUsersContext = createContext<IAdminUsersContext>({
     users: {},
+    showDisabled: false,
+    setShowDisabled: null,
 })
 
 export const AdminUsersProvider: FC<{ children: any }> = ({ children }) => {

@@ -17,7 +17,10 @@ export const AdminUsersTable: FC<IAdminUsersTable> = ({ users }) => {
     console.log(userList)
 
     return (
-        <TableContainer component={Paper} sx={{ width: '70vw' }}>
+        <TableContainer
+            component={Paper}
+            sx={{ width: '70vw', maxHeight: '300px' }}
+        >
             <Table sx={{ minWidth: '90%' }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
