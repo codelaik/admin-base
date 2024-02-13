@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, FC, useEffect } from 'react'
 import { Role, TUser } from '../types/entities'
 import {
+    createUser,
     getAllUsers,
     updateUserDiabled,
     updateUserRole,
@@ -13,6 +14,7 @@ interface IAdminUsersContext {
     showDisabled: boolean
     updateDisabled: (id: number, role: boolean) => void
     updateRole: (id: number, role: Role) => void
+    createNewUser: (user: Partial<TUser>) => void
 }
 
 const useAdminUsers = () => {
@@ -48,7 +50,22 @@ const useAdminUsers = () => {
         }
     }
 
-    return { users, showDisabled, setShowDisabled, updateDisabled, updateRole }
+    const createNewUser = async (user: Partial<TUser>) => {
+        const newUser = await createUser(user)
+        if (newUser) {
+            toast.success(`New User Successfully Created`)
+            setUsers({ ...users, [newUser.id]: newUser })
+        }
+    }
+
+    return {
+        users,
+        showDisabled,
+        setShowDisabled,
+        updateDisabled,
+        updateRole,
+        createNewUser,
+    }
 }
 
 const AdminUsersContext = createContext<IAdminUsersContext>({
@@ -57,6 +74,7 @@ const AdminUsersContext = createContext<IAdminUsersContext>({
     setShowDisabled(_) {},
     updateDisabled(_, __) {},
     updateRole(_, __) {},
+    createNewUser(_) {},
 })
 
 export const AdminUsersProvider: FC<{ children: any }> = ({ children }) => {
