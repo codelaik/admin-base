@@ -1,11 +1,12 @@
 import { createContext, useContext, useState, FC, useEffect } from 'react'
 import { TUser } from '../types/entities'
-import { getAllUsers } from '../utils/adminUsers'
+import { getAllUsers, updateUserDiabled } from '../utils/adminUsers'
 
 interface IAdminUsersContext {
     users: Record<string, TUser>
     setShowDisabled: ((_: boolean) => void) | null
     showDisabled: boolean
+    updateDisabled: (_: number, __: boolean) => void
 }
 
 const useAdminUsers = () => {
@@ -23,13 +24,19 @@ const useAdminUsers = () => {
         getAdminUsers()
     }, [showDisabled])
 
-    return { users, showDisabled, setShowDisabled }
+    const updateDisabled = async (id: number, disabled: boolean) => {
+        const newUser = await updateUserDiabled(id, disabled)
+        setUsers({ ...users, [newUser.id]: newUser })
+    }
+
+    return { users, showDisabled, setShowDisabled, updateDisabled }
 }
 
 const AdminUsersContext = createContext<IAdminUsersContext>({
     users: {},
     showDisabled: false,
-    setShowDisabled: null,
+    setShowDisabled(_) {},
+    updateDisabled(_, __) {},
 })
 
 export const AdminUsersProvider: FC<{ children: any }> = ({ children }) => {

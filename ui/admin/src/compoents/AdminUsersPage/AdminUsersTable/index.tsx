@@ -10,9 +10,13 @@ import { Checkbox, Paper } from '@mui/material'
 
 interface IAdminUsersTable {
     users: Record<string, TUser>
+    updateDisabled: (id: number, disabled: boolean) => void
 }
 
-export const AdminUsersTable: FC<IAdminUsersTable> = ({ users }) => {
+export const AdminUsersTable: FC<IAdminUsersTable> = ({
+    users,
+    updateDisabled,
+}) => {
     const userList = Object.values(users)
     console.log(userList)
 
@@ -48,7 +52,12 @@ export const AdminUsersTable: FC<IAdminUsersTable> = ({ users }) => {
                             <TableCell align="right">{row.email}</TableCell>
                             <TableCell align="right">{row.role}</TableCell>
                             <TableCell align="right">
-                                <Checkbox value={row.disabled} />
+                                <Checkbox
+                                    checked={row.disabled}
+                                    onClick={() =>
+                                        updateDisabled(row.id, !row.disabled)
+                                    }
+                                />
                             </TableCell>
                         </TableRow>
                     ))}

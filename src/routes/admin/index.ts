@@ -2,7 +2,6 @@ import express from 'express'
 import {
     createUserAsAdmin,
     disableUser,
-    enableUser,
     getAdminUsers,
     getUser,
     loginUser,
@@ -36,11 +35,6 @@ router.post(
     '/users/:id/disable',
     passport.authenticate('jwt', { session: false }),
     disableUser
-)
-router.post(
-    '/users/:id/enable',
-    passport.authenticate('jwt', { session: false }),
-    enableUser
 )
 router.post('/users/login', loginUser)
 export default router

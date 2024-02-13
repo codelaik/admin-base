@@ -4,7 +4,8 @@ import { useAdminUsersContext } from '../../hooks/useAdminUsers'
 import { AdminUsersTable } from '../../compoents/AdminUsersPage/AdminUsersTable'
 
 export const AdminUsersPage: FC = () => {
-    const { users, setShowDisabled, showDisabled } = useAdminUsersContext()
+    const { users, setShowDisabled, showDisabled, updateDisabled } =
+        useAdminUsersContext()
     console.log(showDisabled)
 
     const onClick = () => {
@@ -29,7 +30,10 @@ export const AdminUsersPage: FC = () => {
                     alignItems: 'left',
                 }}
             >
-                <AdminUsersTable users={users} />
+                <AdminUsersTable
+                    users={users}
+                    updateDisabled={updateDisabled}
+                />
                 <Typography>
                     <Checkbox value={showDisabled} onClick={onClick} />
                     Show Disabled

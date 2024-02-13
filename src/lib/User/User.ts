@@ -163,8 +163,8 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 export const getUser = (req: Request, res: Response) => {
-    const user = req.user
-    if (!user) {
+    const user = req.user as User
+    if (!user || user.disabled) {
         Logger.warn('No current User found')
         res.status(500).json({
             errorMessage: 'No Current User Found',
@@ -177,7 +177,7 @@ export const getUser = (req: Request, res: Response) => {
 const changeUserState = async (
     req: Request,
     res: Response,
-    status: boolean
+    data: Partial<User>
 ) => {
     const adminUser = req.body as User
     const id = Number(req.params.id)
@@ -194,9 +194,7 @@ const changeUserState = async (
         where: {
             id,
         },
-        data: {
-            disabled: status,
-        },
+        data
     })
 
     await addAuditLog(
@@ -211,9 +209,5 @@ const changeUserState = async (
 }
 
 export const disableUser = async (req: Request, res: Response) => {
-    changeUserState(req, res, false)
-}
-
-export const enableUser = async (req: Request, res: Response) => {
-    changeUserState(req, res, true)
+    changeUserState(req, res, {disabled: req.body.disabled})
 }
