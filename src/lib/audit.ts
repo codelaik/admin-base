@@ -13,10 +13,10 @@ export const addAuditLog = async (
     type: AUDIT_TYPE,
     action: string
 ) => {
-    db.auditLog.create({
+    await db.auditLog.create({
         data: {
             type,
-            action: user.username,
+            action: action,
             userId: user.id,
         },
     })

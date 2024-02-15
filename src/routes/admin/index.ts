@@ -8,20 +8,16 @@ import {
     loginUser,
 } from '../../lib/User/User'
 import passport from 'passport'
+import { getAllAudits } from '../../lib/Audit/audit'
 
 const router = express.Router()
 
-//GET routes
+//User routes
 router.get(
     '/users/current',
     passport.authenticate('jwt', { session: false }),
     getUser
 )
-
-//POST routes
-// if (process.env.NODE_ENV === 'development') {
-//     router.post('/users', createUser)
-// }
 router.post(
     '/users',
     passport.authenticate('jwt', { session: false }),
@@ -43,4 +39,11 @@ router.post(
     updateUserRole
 )
 router.post('/users/login', loginUser)
+
+//audit routes
+router.get(
+    '/audits',
+    // passport.authenticate('jwt', { session: false }),
+    getAllAudits
+)
 export default router
