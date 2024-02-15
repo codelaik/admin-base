@@ -43,7 +43,7 @@ router.post('/users/login', loginUser)
 //audit routes
 router.get(
     '/audits',
-    // passport.authenticate('jwt', { session: false }),
+    passport.authenticate('jwt', { session: false }),
     getAllAudits
 )
 export default router

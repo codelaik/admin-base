@@ -6,7 +6,7 @@ import db from '../prisma'
 import { AUDIT_TYPE, ResponseStatus } from '../../types'
 import jwt from 'jsonwebtoken'
 import { Role, User } from '@prisma/client'
-import { addAuditLog } from '../audit'
+import { addAuditLog } from '../Audit/audit'
 import { encrypt, exclude } from '../../utils'
 
 const secretOrKey = process.env.SECRET_OR_KEY
