@@ -39,28 +39,31 @@ const LoginForm: FC = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (Object.values(formOptions).includes('')) {
-            setIsSubmitDisabled(true)
-            return
-        }
+        // if (Object.values(formOptions).includes('')) {
+        //     setIsSubmitDisabled(false)
+        //     return
+        // }
 
         setIsSubmitDisabled(false)
     }, [formErrors, formOptions])
 
     const handleChange = (e: any) => {
-        const hasError = !e.target.value || e.target.value === ''
-        setFormErrors({
-            ...formErrors,
-            [e.target.name]: hasError ? 'Field can not be empty' : null,
-        })
         setFormOptions({ ...formOptions, [e.target.name]: e.target.value })
     }
 
     const handleSubmit = async () => {
-        setIsLoading(true)
-        await loginUser(formOptions)
-        navigate(state?.path || '/')
-        setIsLoading(false)
+        const errors: any = {};
+        Object.entries(formOptions).forEach(entry => {
+            const hasError = !entry[1] || entry[1] === ''
+            errors[entry[0]] = hasError ? 'Field can not be empty' : null
+        })
+        setFormErrors(errors);
+        if (Object.values(errors).every(val => !val)) {
+            setIsLoading(true)
+            await loginUser(formOptions)
+            navigate(state?.path || '/')
+            setIsLoading(false)
+        }
     }
 
     return (

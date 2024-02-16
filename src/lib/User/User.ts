@@ -38,7 +38,7 @@ export const getAdminUsers = async (req: Request, res: Response) => {
 
     //checks if the user has proper permissions and showDisabled was set to true
     const shouldShowDisabled =
-        userRole === Role.SUPER_ADMIN && req.body.showDisabled
+        userRole === Role.SUPER_ADMIN && !!req.body.showDisabled
 
     //if value is true, all users are returned. If false, on NON disabled users are shown
     const rawUsers = await db.user.findMany(
