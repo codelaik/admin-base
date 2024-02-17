@@ -5,7 +5,7 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import styles from './styles'
 import { AdminErrorWrapper } from '../../Global/AdminErrorWrapper'
 import { COLORS } from '../../../styles/theme'
@@ -32,33 +32,23 @@ const LoginForm: FC = () => {
     const [formOptions, setFormOptions] =
         useState<TLoginInfo>(defaultFormOptions)
     const [formErrors, setFormErrors] = useState<TFormErrors>(defaultFormErrors)
-    const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const { loginUser } = useUserAuthContext()
     const { state } = useLocation()
     const navigate = useNavigate()
-
-    useEffect(() => {
-        // if (Object.values(formOptions).includes('')) {
-        //     setIsSubmitDisabled(false)
-        //     return
-        // }
-
-        setIsSubmitDisabled(false)
-    }, [formErrors, formOptions])
 
     const handleChange = (e: any) => {
         setFormOptions({ ...formOptions, [e.target.name]: e.target.value })
     }
 
     const handleSubmit = async () => {
-        const errors: any = {};
-        Object.entries(formOptions).forEach(entry => {
-            const hasError = !entry[1] || entry[1] === ''
-            errors[entry[0]] = hasError ? 'Field can not be empty' : null
+        const errors: any = {}
+        Object.entries(formOptions).forEach(([key, value]) => {
+            const hasError = !value || value === ''
+            errors[key] = hasError ? 'Field can not be empty' : null
         })
-        setFormErrors(errors);
-        if (Object.values(errors).every(val => !val)) {
+        setFormErrors(errors)
+        if (Object.values(errors).every((val) => !val)) {
             setIsLoading(true)
             await loginUser(formOptions)
             navigate(state?.path || '/')
@@ -97,7 +87,7 @@ const LoginForm: FC = () => {
                 sx={styles.submitButton}
                 variant="contained"
                 onClick={handleSubmit}
-                disabled={isSubmitDisabled || isLoading}
+                disabled={isLoading}
             >
                 {isLoading ? <CircularProgress size="1.7em" /> : 'Login'}
             </Button>
