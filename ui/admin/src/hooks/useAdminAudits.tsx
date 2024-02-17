@@ -10,10 +10,10 @@ interface IAdminAuditsContext {
 const useAdminAudits = () => {
     const [audits, setAudits] = useState<TAudit[]>([])
 
-    const fetchAudits = async (page = 0, limit = 10) => {
-        const audits: TAudit[] = await getAudits(page, limit)
+    const fetchAudits = async (page = 0, limit = 1) => {
+        const newAudits: TAudit[] = await getAudits(page, limit)
 
-        setAudits(audits)
+        setAudits([...audits, ...newAudits])
     }
 
     useEffect(() => {
