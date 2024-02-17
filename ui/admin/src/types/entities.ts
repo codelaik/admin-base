@@ -11,3 +11,12 @@ export type TUser = {
     role: Role
     disabled: boolean
 }
+
+export type TAudit = {
+    id: number, 
+    type: string
+    action: string
+    user: TUser
+    userId: number
+    createdAt: string
+}

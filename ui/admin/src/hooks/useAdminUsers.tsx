@@ -5,7 +5,7 @@ import {
     getAllUsers,
     updateUserDiabled,
     updateUserRole,
-} from '../utils/adminUsers'
+} from '../utils/admin'
 import toast from 'react-hot-toast'
 
 interface IAdminUsersContext {
