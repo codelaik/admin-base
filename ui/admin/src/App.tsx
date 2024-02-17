@@ -8,6 +8,8 @@ import { LoadingPage } from './pages/LoadingPage'
 import { AdminUsersPage } from './pages/AdminUsers'
 import { AdminUsersProvider } from './hooks/useAdminUsers'
 import ErrorBoundary from './pages/ErrorBoundary'
+import { AdminAuditsProvider } from './hooks/useAdminAudits'
+import { AdminAuditsPage } from './pages/AdminAudits'
 
 function App() {
     const { isLoading } = useUserAuthContext()
@@ -42,6 +44,16 @@ function App() {
                                 <AdminUsersProvider>
                                     <AdminUsersPage />
                                 </AdminUsersProvider>
+                            </AuthEnforce>
+                        }
+                    />
+                    <Route
+                        path="/admin/audits"
+                        element={
+                            <AuthEnforce>
+                                <AdminAuditsProvider>
+                                    <AdminAuditsPage />
+                                </AdminAuditsProvider>
                             </AuthEnforce>
                         }
                     />

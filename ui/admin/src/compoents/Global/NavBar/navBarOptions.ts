@@ -28,6 +28,10 @@ const admin = [
         title: 'Users',
         path: '/admin/users',
     },
+    {
+        title: 'Audits',
+        path: '/admin/audits'
+    }
 ]
 
 const baseOptions = [
@@ -51,8 +55,7 @@ const AdminOptions = [
 
 const SuperAdminOptions = [
     ...AdminOptions,
-    {title: 'admin', dropdown: admin}
-
+    {title: 'admin', dropdown: admin},
 ]
 
 export const navbarOptions = {
