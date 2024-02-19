@@ -1,18 +1,11 @@
 import { Box, CircularProgress } from '@mui/material'
 import { FC } from 'react'
 import { AdminAuditsTable } from '../../compoents/AdminAuditsPage/AuditsTable'
+import styles from './styles'
 
 export const AdminAuditsPage: FC = () => {
     return (
-        <Box
-            sx={{
-                // display: 'flex',
-                // justifyContent: 'center',
-                // alignItems: 'center',
-                height: '100vh',
-                padding: '20px',
-            }}
-        >
+        <Box sx={styles.container}>
             <AdminAuditsTable />
             <CircularProgress />
         </Box>

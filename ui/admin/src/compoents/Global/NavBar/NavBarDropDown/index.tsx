@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material'
 import { FC, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { COLORS } from '../../../../styles/theme'
 import { NavbarItem } from '../NavBarSelector'
+import styles from './styles'
 import autoAnimate from '@formkit/auto-animate'
 
 type TNavbarDropdown = {
@@ -33,34 +33,10 @@ export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
 
     return (
         <Box
-            sx={{
-                width: '100%',
-                margin: '0px',
-                color: COLORS.TEXT_TERTIARY,
-                display: 'flex',
-                flexDirection: 'column',
-                borderLeft: isSelected
-                    ? `5px solid ${COLORS.TEXT_TERTIARY}`
-                    : null,
-            }}
+            sx={styles.drowdownContainer(isSelected)}
             onClick={() => setIsSelected(!isSelected)}
         >
-            <Box
-                sx={{
-                    display: 'flex',
-                    width: '100%',
-                    margin: '0px',
-                    padding: '20px',
-                    justifyContent: 'space-between',
-                    color: 'white',
-                    '&:hover': {
-                        cursor: 'pointer',
-                        backgroundColor: isSelected
-                            ? null
-                            : COLORS.TEXT_TERTIARY,
-                    },
-                }}
-            >
+            <Box sx={styles.selectorContainer(isSelected)}>
                 <Typography variant="h6" fontWeight="bold">
                     {title}
                 </Typography>
@@ -68,7 +44,7 @@ export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
                     {isSelected ? 'V' : '>'}
                 </Typography>
             </Box>
-            <Box sx={{ padding: '0px', paddingLeft: '20px' }}>
+            <Box sx={styles.itemsMenu}>
                 {isSelected
                     ? options.map((option) => {
                           return (
