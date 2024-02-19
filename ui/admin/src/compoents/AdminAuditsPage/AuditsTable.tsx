@@ -8,7 +8,7 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material'
-import { COLORS } from '../../styles/theme'
+import styles from './styles'
 
 export const AdminAuditsTable: FC = () => {
     const [page, setPage] = useState<number>(0)
@@ -24,17 +24,7 @@ export const AdminAuditsTable: FC = () => {
         setPage(page + 1)
     }
     return (
-        <TableContainer
-            sx={{
-                backgroundColor: COLORS.BACKGROUND_PRIMARY,
-                borderRadius: '10px',
-                display: 'flex',
-                minWidth: '700px',
-                flexDirection: 'column',
-                justifyContent: 'right',
-                alignItems: 'right',
-            }}
-        >
+        <TableContainer sx={styles.tableContainer}>
             <Table>
                 <TableHead>
                     <TableRow>

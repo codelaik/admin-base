@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { COLORS } from '../../../styles/theme'
 import { FC } from 'react'
+import styles from './styles'
 
 type TAdminLoginWrapper = {
     children: any
@@ -12,7 +13,7 @@ export const AdminErrorWrapper: FC<TAdminLoginWrapper> = ({
     error,
 }) => {
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={styles.container}>
             {children}
             {!!error && (
                 <Typography

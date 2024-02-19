@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import React, { Component } from 'react'
-import { COLORS } from '../../styles/theme'
+import styles from './styles'
 
 class ErrorBoundary extends Component<
     { children: any },
@@ -22,16 +22,7 @@ class ErrorBoundary extends Component<
     render() {
         if (this.state.hasError) {
             return (
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100vh',
-                        width: '100vw',
-                        backgroundColor: COLORS.SECONDARY,
-                    }}
-                >
+                <Box sx={styles.errorPageContainer}>
                     <Box>
                         <Typography>Something Broke :(</Typography>
                         <Typography>

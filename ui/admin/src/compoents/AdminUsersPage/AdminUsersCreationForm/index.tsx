@@ -11,7 +11,8 @@ import { FC, useEffect, useState } from 'react'
 import { AdminErrorWrapper } from '../../Global/AdminErrorWrapper'
 import { useAdminUsersContext } from '../../../hooks/useAdminUsers'
 import { Role, TUser } from '../../../types/entities'
-import { COLORS } from '../../../styles/theme'
+import styles from './styles'
+
 const defaultUserCreation = {
     username: '',
     email: '',
@@ -71,19 +72,7 @@ export const AdminUserCreationForm: FC = () => {
     }
 
     return (
-        <FormControl
-            sx={{
-                width: '600px',
-                backgroundColor: COLORS.BACKGROUND_PRIMARY,
-                padding: '10px',
-                '& div': {
-                    padding: '2px',
-                },
-                '& select': {
-                    padding: '5px',
-                },
-            }}
-        >
+        <FormControl sx={styles.formControl}>
             <AdminErrorWrapper error={formErrors.username}>
                 <TextField
                     onChange={handleChange}

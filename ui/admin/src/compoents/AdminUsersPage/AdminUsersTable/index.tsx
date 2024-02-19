@@ -14,6 +14,7 @@ import {
     SelectChangeEvent,
 } from '@mui/material'
 import { Role } from '../../../types/entities'
+import styles from './styles'
 
 interface IAdminUsersTable {
     users: Record<string, TUser>
@@ -29,16 +30,17 @@ export const AdminUsersTable: FC<IAdminUsersTable> = ({
     const userList = Object.values(users)
     console.log(userList)
 
+    const update = (id: number, setDisabled: boolean) => () => {
+        updateDisabled(id, setDisabled)
+    }
+
     const handleRoleChange = (id: number) => (event: SelectChangeEvent) => {
         updateUserRole(id, event.target.value as Role)
     }
 
     return (
-        <TableContainer
-            component={Paper}
-            sx={{ width: '70vw', maxHeight: '300px' }}
-        >
-            <Table sx={{ minWidth: '90%' }} aria-label="simple table">
+        <TableContainer component={Paper} sx={styles.tableContainer}>
+            <Table sx={styles.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Id</TableCell>
@@ -50,14 +52,7 @@ export const AdminUsersTable: FC<IAdminUsersTable> = ({
                 </TableHead>
                 <TableBody>
                     {userList.map((row) => (
-                        <TableRow
-                            key={row.email}
-                            sx={{
-                                '&:last-child td, &:last-child th': {
-                                    border: 0,
-                                },
-                            }}
-                        >
+                        <TableRow key={row.email} sx={styles.row}>
                             <TableCell component="th" scope="row">
                                 {row.id}
                             </TableCell>
@@ -82,9 +77,7 @@ export const AdminUsersTable: FC<IAdminUsersTable> = ({
                             <TableCell align="right">
                                 <Checkbox
                                     checked={row.disabled}
-                                    onClick={() =>
-                                        updateDisabled(row.id, !row.disabled)
-                                    }
+                                    onClick={update(row.id, !row.disabled)}
                                 />
                             </TableCell>
                         </TableRow>
