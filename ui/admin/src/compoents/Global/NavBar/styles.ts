@@ -4,10 +4,10 @@ const styles = {
     navBarContainer: {
         backgroundColor: COLORS.PRIMARY,
         width: '18%',
+        padding: '0px 10px 0px 10px',
         height: '100vh',
         overflow: 'scroll',
         'overflow-y': 'none',
-        // boxShadow: `1px 10px 10px 1px ${COLORS.PRIMARY}`,
         display: 'flex',
         flexDirection: 'column',
         '-ms-overflow-style': 'none',  /* Internet Explorer 10+ */
@@ -21,16 +21,14 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        '& > *': {
-            marginBottom: '20px',
-        },
+        alignItems: 'left'
     },
-    profilePhoto: {
-        height: '100px',
-        width: '100px',
-        borderRadius: '100%',
-    },
+    waterMark: {
+        position: 'absolute',
+        bottom: 0,
+        color: 'white',
+        paddingBottom: '10px',
+    }
 }
 
 export default styles

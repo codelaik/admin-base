@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { NavbarItem } from '../NavBarSelector'
 import styles from './styles'
 import autoAnimate from '@formkit/auto-animate'
+//TODO: animate opening dropdown for a smoother transition
 
 type TNavbarDropdown = {
     title: string
@@ -15,8 +16,8 @@ type TNavbarDropdown = {
 
 export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
     const [isSelected, setIsSelected] = useState<boolean>(false)
+    const [openOptions, setOpenOptions] = useState<any[]>([])
     const { pathname } = useLocation()
-    console.log(localStorage.jwtToken)
     const parentRef = useRef()
 
     useEffect(() => {
@@ -24,6 +25,14 @@ export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
             autoAnimate(parentRef.current)
         }
     }, [parentRef])
+
+    useEffect(() => {
+        if (isSelected) {
+            setOpenOptions(options)
+            return
+        }
+        setOpenOptions([])
+    }, [isSelected])
 
     useEffect(() => {
         if (options.some((option) => option.path === pathname)) {
@@ -40,23 +49,23 @@ export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
                 <Typography variant="h6" fontWeight="bold">
                     {title}
                 </Typography>
-                <Typography variant="h6" fontWeight="bold">
-                    {isSelected ? 'V' : '>'}
+                <Typography
+                    sx={styles.carrotAnimation(isSelected)}
+                    variant="h6"
+                >
+                    &#9650;
                 </Typography>
             </Box>
-            <Box sx={styles.itemsMenu}>
-                {isSelected
-                    ? options.map((option) => {
-                          return (
-                              <NavbarItem
-                                  path={option.path}
-                                  title={option.title}
-                                  key={option.path}
-                              />
-                          )
-                      })
-                    : null}
-            </Box>
+            {openOptions.map((option) => {
+                return (
+                    <NavbarItem
+                        path={option.path}
+                        title={option.title}
+                        key={option.path}
+                        dropdownItem
+                    />
+                )
+            })}
         </Box>
     )
 }

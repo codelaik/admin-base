@@ -1,16 +1,17 @@
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { Box, Typography } from '@mui/material'
 import { useUserAuthContext } from '../../../hooks/useAuth'
 import styles from './styles'
 import { NavbarItem } from './NavBarSelector'
 import { NavbarDropdown } from './NavBarDropDown'
 import { navbarOptions } from './navBarOptions'
+import { TUser } from '../../../types/entities'
 
 export const Navbar: FC = () => {
-    const { user } = useUserAuthContext()
-    if (!user) return null
+    //TODO: should be typed properly, added in interest of time
+    const { user } = useUserAuthContext() as { user: TUser }
 
-    let options = navbarOptions[user.role]
+    const options = useMemo(() => navbarOptions[user?.role], [])
 
     return (
         <Box sx={styles.navBarContainer}>
@@ -18,18 +19,13 @@ export const Navbar: FC = () => {
                 <Typography variant="h4" color="white">
                     Admin-Base
                 </Typography>
-                <img
-                    style={styles.profilePhoto}
-                    src="https://www.pphfoundation.ca/wp-content/uploads/2018/05/default-avatar.png"
-                    alt="profile"
-                />
                 <Typography
                     sx={{ textAlign: 'left' }}
                     textAlign="left"
-                    variant="h6"
+                    fontSize="15px"
                     color="white"
                 >
-                    {user?.username}
+                    {user.username}
                 </Typography>
             </Box>
             {options.map((option: any) => {
@@ -43,6 +39,9 @@ export const Navbar: FC = () => {
                 }
                 return <NavbarItem path={option.path} title={option.title} />
             })}
+            <Box sx={styles.waterMark}>
+                <Typography variant="caption">Powered by CodeLaik</Typography>
+            </Box>
         </Box>
     )
 }
