@@ -13,6 +13,8 @@ export const Navbar: FC = () => {
 
     const options = useMemo(() => navbarOptions[user?.role], [])
 
+    if (!user) return null
+
     return (
         <Box sx={styles.navBarContainer}>
             <Box sx={styles.titleContainer}>
