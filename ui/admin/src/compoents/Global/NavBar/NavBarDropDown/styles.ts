@@ -1,23 +1,16 @@
 import { COLORS } from "../../../../styles/theme"
 
 const styles = {
-    drowdownContainer: (isSelected: boolean) => ({
+    drowdownContainer:(isSelected: boolean) => ( {
         width: '100%',
-        margin: '0px',
+        margin: '5px 0px 5px 0px',
+        padding: '20px',
+        borderRadius: '10px',
         color: COLORS.TEXT_TERTIARY,
         display: 'flex',
         flexDirection: 'column',
-        borderLeft: isSelected
-            ? `5px solid ${COLORS.TEXT_TERTIARY}`
-            : null,
-    }),
-    selectorContainer: (isSelected: boolean) => ({
-        display: 'flex',
-        width: '100%',
-        margin: '0px',
-        padding: '20px',
-        justifyContent: 'space-between',
-        color: 'white',
+        backgroundColor: isSelected ? COLORS.SECONDARY : null,
+        transitionDuration: '.3s',
         '&:hover': {
             cursor: 'pointer',
             backgroundColor: isSelected
@@ -25,7 +18,18 @@ const styles = {
                 : COLORS.TEXT_TERTIARY,
         },
     }),
-    itemsMenu: { padding: '0px', paddingLeft: '20px' }
+    selectorContainer: (isSelected: boolean) => ({
+        display: 'flex',
+        justifyContent: 'space-between',
+        color: 'white',
+        marginBottom: isSelected ? '10px' : null
+    }),
+    carrotAnimation: (isSelected: boolean) => ({
+        transitionDuration: '.5s',
+        transform: isSelected
+            ? 'rotate(180deg)'
+            : 'rotate(90deg)',
+    })
 }
 
 export default styles

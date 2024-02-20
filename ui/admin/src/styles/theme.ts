@@ -1,8 +1,8 @@
 import { createTheme } from '@mui/material'
 
 export enum COLORS {
-    PRIMARY = '#8EB1C7',
-    SECONDARY = '#C1BFB5',
+    PRIMARY = '#6E8FD2',
+    SECONDARY = '#98AEDA',
     BACKGROUND_PRIMARY = '#FEFDFF',
     BACKGROUND_SECONDARY = '#FFFFFF',
     TEXT_PRIMARY = '#1E1E1E',

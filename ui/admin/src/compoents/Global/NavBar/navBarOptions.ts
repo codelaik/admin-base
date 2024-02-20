@@ -2,23 +2,23 @@ import { Role } from "../../../types/entities"
 
 const pages = [
     {
-        title: 'main',
+        title: 'Main',
         path: '/g',
     },
     {
-        title: 'second',
+        title: 'Second',
         path: '/t',
     },
     {
-        title: 'third',
+        title: 'Third',
         path: '/o',
     },
     {
-        title: 'fourth',
+        title: 'Fourth',
         path: '/y',
     },
     {
-        title: 'fifth',
+        title: 'Fifth',
         path: '/e',
     },
 ]
@@ -31,6 +31,10 @@ const admin = [
     {
         title: 'Audits',
         path: '/admin/audits'
+    },
+    {
+        title: 'Analytics',
+        path: '/analytics'
     }
 ]
 
@@ -46,16 +50,12 @@ const baseOptions = [
 ]
 
 const AdminOptions = [
-    ...baseOptions,
-    {
-        title: 'Analytics',
-        path: '/analytics'
-    }
+    ...baseOptions
 ]
 
 const SuperAdminOptions = [
     ...AdminOptions,
-    {title: 'admin', dropdown: admin},
+    {title: 'Admin', dropdown: admin},
 ]
 
 export const navbarOptions = {

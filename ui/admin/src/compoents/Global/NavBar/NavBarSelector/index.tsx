@@ -6,9 +6,10 @@ import styles from './styles'
 type TNavbarItem = {
     title: string
     path: string
+    dropdownItem?: boolean
 }
 
-export const NavbarItem: FC<TNavbarItem> = ({ title, path }) => {
+export const NavbarItem: FC<TNavbarItem> = ({ title, path, dropdownItem }) => {
     const { pathname } = useLocation()
     const [isSelected, setIsSelected] = useState<boolean>(path === pathname)
     const navigate = useNavigate()
@@ -26,12 +27,12 @@ export const NavbarItem: FC<TNavbarItem> = ({ title, path }) => {
     const onClick = () => navigate(path)
 
     return (
-        <Box sx={styles.container(isSelected)} onClick={onClick}>
+        <Box
+            sx={styles.container(isSelected, !!dropdownItem)}
+            onClick={onClick}
+        >
             <Typography variant="h6" fontWeight="bold">
                 {title}
-            </Typography>
-            <Typography variant="h6" fontWeight="bold">
-                {'>'}
             </Typography>
         </Box>
     )
