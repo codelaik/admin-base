@@ -22,10 +22,18 @@ const styles = {
         display: 'flex',
         justifyContent: 'space-between',
         color: 'white',
-        marginBottom: isSelected ? '10px' : null
+        marginBottom: isSelected ? '10px' : null,
+        'user-select': 'none',
+        '&:hover #navbar-container': {
+            cursor: 'pointer',
+            backgroundColor: isSelected
+                ? COLORS.TEXT_TERTIARY
+                : null,
+        },
     }),
     carrotAnimation: (isSelected: boolean) => ({
         transitionDuration: '.5s',
+        'user-select': 'none',
         transform: isSelected
             ? 'rotate(180deg)'
             : 'rotate(90deg)',

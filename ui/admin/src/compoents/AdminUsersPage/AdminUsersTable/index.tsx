@@ -73,7 +73,9 @@ export const AdminUsersTable: FC<IAdminUsersTable> = ({
                                 <TableCell align="center">
                                     <Select
                                         value={row.role}
+                                        sx={{ width: '150px' }}
                                         onChange={handleRoleChange(row.id)}
+                                        size="small"
                                     >
                                         <MenuItem value={Role.SUPER_ADMIN}>
                                             Super Admin

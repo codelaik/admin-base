@@ -10,6 +10,9 @@ const styles = {
         'overflow-y': 'none',
         display: 'flex',
         flexDirection: 'column',
+        '-webkit-box-shadow': 'inset -1px -18px 135px -51px rgba(0,0,0,0.75)',
+        '-moz-box-shadow': 'inset -1px -18px 135px -51px rgba(0,0,0,0.75)',
+        'box-shadow': 'inset -1px -18px 135px -51px rgba(0,0,0,0.75)',
         '-ms-overflow-style': 'none',  /* Internet Explorer 10+ */
         'scrollbar-width': 'none',  /* Firefox */
         '&::-webkit-scrollbar': { 

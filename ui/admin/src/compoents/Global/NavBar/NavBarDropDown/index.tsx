@@ -42,13 +42,12 @@ export const NavbarDropdown: FC<TNavbarDropdown> = ({ options, title }) => {
 
     return (
         <Box
+            id="navbar-container"
             sx={styles.drowdownContainer(isSelected)}
             onClick={() => setIsSelected(!isSelected)}
         >
             <Box sx={styles.selectorContainer(isSelected)}>
-                <Typography variant="h6" fontWeight="bold">
-                    {title}
-                </Typography>
+                <Typography variant="h6">{title}</Typography>
                 <Typography
                     sx={styles.carrotAnimation(isSelected)}
                     variant="h6"

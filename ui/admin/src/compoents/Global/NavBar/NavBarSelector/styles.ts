@@ -11,6 +11,7 @@ const styles = {
         display: 'flex',
         justifyContent: 'space-between',
         transitionDuration: '.3s',
+        'user-select': 'none',
         '&:hover': {
             cursor: isSelected ? null : 'pointer',
             backgroundColor: isSelected ? null : COLORS.TEXT_TERTIARY,

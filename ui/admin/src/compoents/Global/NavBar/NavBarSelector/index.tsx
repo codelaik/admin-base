@@ -31,9 +31,7 @@ export const NavbarItem: FC<TNavbarItem> = ({ title, path, dropdownItem }) => {
             sx={styles.container(isSelected, !!dropdownItem)}
             onClick={onClick}
         >
-            <Typography variant="h6" fontWeight="bold">
-                {title}
-            </Typography>
+            <Typography variant="h6">{title}</Typography>
         </Box>
     )
 }
