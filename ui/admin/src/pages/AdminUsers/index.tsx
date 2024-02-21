@@ -1,4 +1,4 @@
-import { Box, Checkbox, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { FC } from 'react'
 import { useAdminUsersContext } from '../../hooks/useAdminUsers'
 import { AdminUsersTable } from '../../compoents/AdminUsersPage/AdminUsersTable'
@@ -9,21 +9,15 @@ export const AdminUsersPage: FC = () => {
     const { users, setShowDisabled, showDisabled, updateDisabled, updateRole } =
         useAdminUsersContext()
 
-    const onClick = () => {
-        setShowDisabled && setShowDisabled(!showDisabled)
-    }
-
     return (
         <Box sx={styles.pageContainer}>
             <AdminUsersTable
                 users={users}
                 updateDisabled={updateDisabled}
                 updateUserRole={updateRole}
+                setShowDisabled={setShowDisabled}
+                showDisabled={showDisabled}
             />
-            <Typography>
-                <Checkbox value={showDisabled} onClick={onClick} />
-                Show Disabled
-            </Typography>
             <AdminUserCreationForm />
         </Box>
     )
