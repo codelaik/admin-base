@@ -5,6 +5,7 @@ const styles = {
         width: '600px',
         backgroundColor: COLORS.BACKGROUND_PRIMARY,
         padding: '10px',
+        borderRadius: '10px', 
         '& div': {
             padding: '2px',
         },

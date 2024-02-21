@@ -6,6 +6,9 @@ const styles = {
         flexDirection: 'column',
         justifyContent: 'left',
         alignItems: 'left',
+        '& > div': {
+            marginBottom: '10px'
+        }
     }
 }
 
