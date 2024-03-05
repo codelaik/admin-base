@@ -1,4 +1,5 @@
 import { FC, useState } from 'react'
+import styles from './styles'
 
 const Navbar: FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
@@ -8,30 +9,21 @@ const Navbar: FC = () => {
     }
 
     return (
-        <div className="flex justify-between w-full h-12 bg-black">
-            <div className="text-2xl padding-0">Admin-Base</div>
-            <button
-                onClick={changeMenuState}
-                className="lg:hidden flex flex-col justify-center items-center px-2"
-            >
-                <span
-                    className={`bg-white block transition-all duration-300 ease-out h-1 w-6 rounded-sm py-0.5 ${isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
-                />
-                <span
-                    className={`bg-white block transition-all duration-300 ease-out h-1 w-6 rounded-sm py-0.5 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}
-                />
-                <span
-                    className={`bg-white block transition-all duration-300 ease-out h-1 w-6 rounded-sm py-0.5 ${isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}
-                />
+        <div className={styles.container}>
+            <div className={styles.title}>Admin-Base</div>
+            <button onClick={changeMenuState} className={styles.button}>
+                <span className={styles.topButtonBar(isMenuOpen)} />
+                <span className={styles.middleButtonBar(isMenuOpen)} />
+                <span className={styles.bottomButtonBar(isMenuOpen)} />
             </button>
-            <ul className="hidden lg:block">
-                <a href="/" className="text-lg m-2 text-white">
+            <ul className={styles.desktopList}>
+                <a href="/" className={styles.menuItems}>
                     Item 1
                 </a>
-                <a href="/" className="text-lg m-2 text-white">
+                <a href="/" className={styles.menuItems}>
                     Item 2
                 </a>
-                <a href="/" className="text-lg m-2 text-white">
+                <a href="/" className={styles.menuItems}>
                     Item 3
                 </a>
             </ul>
