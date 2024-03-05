@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import styles from './styles'
 
 interface IPhotoHeader {
     image?: string
@@ -10,10 +11,10 @@ const PhotoHeader: FC<IPhotoHeader> = ({
     heading = `<h1 class="text-5xl text-white text-center" >Welcome to Admin Base</h1><h2 class="text-2xl text-center text-white">A Base for Future Web Endeavors</h2>`,
 }) => {
     return (
-        <div className="w-full relative">
-            <img className="w-full h-96 object-cover" src={image} />
+        <div className={styles.container}>
+            <img className={styles.image} src={image} />
             <div
-                className="absolute h-96 w-full flex flex-col justify-end bottom-0 mb-6 [&_*]:my-3"
+                className={styles.customHTMLContainer}
                 dangerouslySetInnerHTML={{
                     __html: heading,
                 }}
