@@ -2,6 +2,7 @@ import './App.css'
 import Navbar from './components/global/Navbar'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/home'
+import Footer from './components/global/Footer'
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Route path="/calendar" element={<Home />} />
                 <Route path="/contact" element={<Home />} />
             </Routes>
+            <Footer />
         </div>
     )
 }
