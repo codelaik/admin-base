@@ -1,12 +1,19 @@
 import './App.css'
 import Navbar from './components/global/Navbar'
-import PhotoHeader from './components/global/PhotoHeader'
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/home'
 
 function App() {
     return (
-        <div className="text-3xl">
+        <div className="overflow-x-hidden">
             <Navbar />
-            <PhotoHeader />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<Home />} />
+                <Route path="/pictures" element={<Home />} />
+                <Route path="/calendar" element={<Home />} />
+                <Route path="/contact" element={<Home />} />
+            </Routes>
         </div>
     )
 }
