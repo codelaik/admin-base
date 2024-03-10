@@ -8,16 +8,16 @@ interface IMenuItems {
 export const MenuItems: FC<IMenuItems> = ({ desktop = false }) => {
     return (
         <>
-            <a href="/" className={styles.menuItems(desktop)}>
+            <a href="/about" className={styles.menuItems(desktop)}>
                 About Us
             </a>
-            <a href="/" className={styles.menuItems(desktop)}>
+            <a href="/pictures" className={styles.menuItems(desktop)}>
                 Pictures
             </a>
-            <a href="/" className={styles.menuItems(desktop)}>
+            <a href="/calendar" className={styles.menuItems(desktop)}>
                 Calendar
             </a>
-            <a href="/" className={styles.menuItems(desktop)}>
+            <a href="/contact" className={styles.menuItems(desktop)}>
                 Contact Us
             </a>
         </>
