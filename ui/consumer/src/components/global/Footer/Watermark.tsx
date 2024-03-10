@@ -1,12 +1,13 @@
 import { FC } from 'react'
+import styles from './styles'
 
 export const Watermark: FC = () => {
     return (
-        <div className="flex flex-col justify-center items-center p-4">
-            <div className="text-xs text-white">
+        <div className={styles.waterMarkContainer}>
+            <div className={styles.waterMarkText}>
                 Copywrite CodeLaik. All rights reserved
             </div>
-            <div className="text-xs text-white">Webdesign by CodeLaik</div>
+            <div className={styles.waterMarkText}>Webdesign by CodeLaik</div>
         </div>
     )
 }
