@@ -2,10 +2,19 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
+import { BrowserRouter } from 'react-router-dom'
+import ErrorBoundary from './components/global/ErrorBoundary'
+import { ParallaxProvider } from 'react-scroll-parallax'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
     <React.StrictMode>
-        <App />
+        <ParallaxProvider>
+            <ErrorBoundary>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </ErrorBoundary>
+        </ParallaxProvider>
     </React.StrictMode>
 )
