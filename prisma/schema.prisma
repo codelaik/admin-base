@@ -52,6 +52,8 @@ model FooterList {
 
 model FooterItem {
   id         Int        @id @default(autoincrement())
+  title      String
+  link       String?
   footerList FooterList @relation(fields: [listId], references: [id])
   listId     Int
 }
