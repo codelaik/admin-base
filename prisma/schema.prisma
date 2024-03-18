@@ -43,3 +43,17 @@ model AuditLog {
   userId    Int
   createdAt DateTime @default(now()) @db.Timestamptz(3)
 }
+
+model FooterList {
+  id    Int          @id @default(autoincrement())
+  title String
+  items FooterItem[]
+}
+
+model FooterItem {
+  id         Int        @id @default(autoincrement())
+  title      String
+  link       String?
+  footerList FooterList @relation(fields: [listId], references: [id])
+  listId     Int
+}
