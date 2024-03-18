@@ -9,6 +9,11 @@ import {
 } from '../../lib/User/User'
 import passport from 'passport'
 import { getAllAudits } from '../../lib/Audit/audit'
+import {
+    createFooterItems,
+    createFooterList,
+} from '../../lib/WebElements/Footer/Footer'
+import { authenticatedRoute } from '../../utils'
 
 const router = express.Router()
 
@@ -39,6 +44,18 @@ router.post(
     updateUserRole
 )
 router.post('/users/login', loginUser)
+
+//webpages
+router.post(
+    '/webpages/footer',
+    passport.authenticate('jwt', { session: false }),
+    createFooterList
+)
+router.post(
+    '/webpages/footer/:id',
+    passport.authenticate('jwt', { session: false }),
+    createFooterItems
+)
 
 //audit routes
 router.get(

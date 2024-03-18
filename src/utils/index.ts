@@ -1,5 +1,7 @@
-import { User } from '@prisma/client'
+import { Role, User } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+import { Request, Response } from 'express'
+import passport from 'passport'
 
 export const exclude = (user: User, keys: keyof User) => {
     return Object.fromEntries(
@@ -18,3 +20,26 @@ export const encrypt = async (unencryptedPassword: string) => {
     const encryptedPassword = await bcrypt.hash(unencryptedPassword, salt)
     return encryptedPassword
 }
+
+/**
+ * Checks if the user has correct permissions then returns a boolean
+ * @async
+ * @param user
+ * @param allowedPermissions
+ * @returns boolean
+ */
+export const hasPermissions = (user: User, allowedPermissions: Role[]) => {
+    const userRole = user.role
+    return !userRole || !allowedPermissions.some((role) => role === userRole)
+}
+
+/**
+ *
+ * @param url url for the route
+ * @param func action taken when the route is hit
+ * @returns
+ */
+export const authenticatedRoute = (
+    url: string,
+    func: (req: Request, res: Response) => any
+) => [url, passport.authenticate('jwt', { session: false }), func]
