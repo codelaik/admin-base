@@ -39,7 +39,7 @@ export const getAdminFooterLists = async (req: Request, res: Response) => {
 
 type reqList = {
     title: string
-    items: { title: string; link?: string }[]
+    item: { title: string; link?: string }
 }
 
 export const createFooterList = async (req: Request, res: Response) => {
@@ -75,21 +75,131 @@ export const createFooterItems = async (req: Request, res: Response) => {
         return
     }
 
-    const { items } = req.body as reqList
+    const { item } = req.body as reqList
     const createdItems: any[] = []
 
-    for (const item of items) {
-        const newItem = await db.footerItem.create({
-            data: { ...item, listId },
-        })
-        createdItems.push(newItem)
-    }
+    const newItem = await db.footerItem.create({
+        data: { ...item, listId },
+    })
+    createdItems.push(newItem)
 
     await addAuditLog(
         user,
-        AUDIT_TYPE.CREATED_FOOTER_LIST_ITEMS,
+        AUDIT_TYPE.CREATED_FOOTER_LIST_ITEM,
         createFooterListAudit(listId, createdItems)
     )
 
     res.json({ items: createdItems })
+}
+
+export const updateFooterItem = async (req: Request, res: Response) => {
+    const user = req.user as User
+    if (hasPermissions(user, getAdminUsersRoles)) {
+        res.status(500).json({
+            status: ResponseStatus.FAILED,
+            errorMessage: 'Insuffient User Persmissions',
+        })
+        return
+    }
+
+    const id = Number(req.params.id)
+    const { item } = req.body
+
+    const updatedItem = await db.footerItem.update({
+        where: { id },
+        data: item,
+    })
+
+    await addAuditLog(
+        user,
+        AUDIT_TYPE.UPDATED_FOOTER_LIST_ITEM,
+        createFooterListAudit(id, [item])
+    )
+
+    res.json({ item: updatedItem })
+}
+
+export const updateFooterList = async (req: Request, res: Response) => {
+    const user = req.user as User
+    if (hasPermissions(user, getAdminUsersRoles)) {
+        res.status(500).json({
+            status: ResponseStatus.FAILED,
+            errorMessage: 'Insuffient User Persmissions',
+        })
+        return
+    }
+
+    const id = Number(req.params.id)
+    const { list } = req.body
+
+    const updatedItem = await db.footerList.update({
+        where: { id },
+        data: list,
+        include: { items: true },
+    })
+
+    await addAuditLog(
+        user,
+        AUDIT_TYPE.UPDATED_FOOTER_LIST_TITLE,
+        updatedItem.title
+    )
+
+    res.json({ item: updatedItem })
+}
+
+export const deleteFooterListItem = async (req: Request, res: Response) => {
+    const user = req.user as User
+    if (hasPermissions(user, getAdminUsersRoles)) {
+        res.status(500).json({
+            status: ResponseStatus.FAILED,
+            errorMessage: 'Insuffient User Persmissions',
+        })
+        return
+    }
+
+    const id = Number(req.params.id)
+    const deletedItem = await db.footerItem.delete({
+        where: { id },
+    })
+
+    await addAuditLog(
+        user,
+        AUDIT_TYPE.DELETED_FOOTER_LIST,
+        `${id}::${deletedItem.title}`
+    )
+
+    res.json({
+        success: true,
+    })
+}
+
+export const deleteFooterList = async (req: Request, res: Response) => {
+    const user = req.user as User
+    if (hasPermissions(user, getAdminUsersRoles)) {
+        res.status(500).json({
+            status: ResponseStatus.FAILED,
+            errorMessage: 'Insuffient User Persmissions',
+        })
+        return
+    }
+
+    const id = Number(req.params.id)
+    const deletedList = await db.footerList.delete({
+        where: { id },
+        include: { items: true },
+    })
+
+    for (const item of deletedList.items) {
+        await db.footerItem.delete({ where: { id: item.id } })
+    }
+
+    await addAuditLog(
+        user,
+        AUDIT_TYPE.DELETED_FOOTER_LIST,
+        `${id}::${deletedList.title}`
+    )
+
+    res.json({
+        success: true,
+    })
 }
