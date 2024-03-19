@@ -10,7 +10,6 @@ import {
 import passport from 'passport'
 import { getAllAudits } from '../../lib/Audit/audit'
 import {
-    createFooterItems,
     createFooterList,
     deleteFooterList,
     deleteFooterListItem,
@@ -18,7 +17,6 @@ import {
     updateFooterItem,
     updateFooterList,
 } from '../../lib/WebElements/Footer/Footer'
-import { authenticatedRoute } from '../../utils'
 
 const router = express.Router()
 
